@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private static final int STORAGE_SIZE = 10000;
+    private static final int STORAGE_SIZE = 10_000;
     private Resume[] storage = new Resume[STORAGE_SIZE];
     private int counter = 0;
 
@@ -17,34 +17,34 @@ public class ArrayStorage {
         counter = 0;
     }
 
-    public void save(Resume r) {
-        int index = searchResume(r.getUuid());
+    public void save(Resume resume) {
+        int index = searchResume(resume.getUuid());
         //check Overflow
         if (counter == STORAGE_SIZE) {
-            System.out.println("Resume save OverflowError");
+            System.out.println("Resume " + resume.getUuid() + " save OverflowError");
             return;
         }
         if (index == -1) {
-            storage[counter] = r;
+            storage[counter] = resume;
             counter++;
         } else {
-            System.out.println("Resume save Error");
+            System.out.println("Resume " + resume.getUuid() + " save Error");
         }
     }
 
-    public void update(Resume r) {
-        int index = searchResume(r.getUuid());
+    public void update(Resume resume) {
+        int index = searchResume(resume.getUuid());
         if (index == -1) {
-            System.out.println("Resume update Error");
+            System.out.println("Resume " + resume.getUuid() + " update Error");
         } else {
-            storage[index] = r;
+            storage[index] = resume;
         }
     }
 
     public Resume get(String uuid) {
         int index = searchResume(uuid);
         if (index == -1) {
-            System.out.println("Resume get Error");
+            System.out.println("Resume " + uuid + " get Error");
             return null;
         }
         return storage[index];
@@ -53,7 +53,7 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int index = searchResume(uuid);
         if (index == -1) {
-            System.out.println("Resume delete Error");
+            System.out.println("Resume " + uuid + " delete Error");
         } else {
             //check ArrayIndexOutOfBounds
             if (index != STORAGE_SIZE - 1) {
