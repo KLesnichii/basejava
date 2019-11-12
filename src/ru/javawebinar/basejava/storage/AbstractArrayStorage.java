@@ -17,8 +17,17 @@ public abstract class AbstractArrayStorage implements Storage {
         counter = 0;
     }
 
-    @Override
-    public abstract void save(Resume resume);
+    public void save(Resume resume) {
+        if (counter == STORAGE_SIZE) {//check Overflow
+            System.out.println("Resume " + resume.getUuid() + " save OverflowError");
+            return;
+        }
+
+        int index = searchResume(resume.getUuid());
+        if (index >= 0) {
+            System.out.println("Resume " + resume.getUuid() + " save Error");
+        } else addResume(index, resume);
+    }
 
     public void update(Resume resume) {
         int index = searchResume(resume.getUuid());
@@ -43,14 +52,12 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index < 0) {
             System.out.println("Resume " + uuid + " delete Error");
         } else {
-            System.arraycopy(storage, index + 1, storage, index, counter - index - 1);
-            counter--;
-            storage[counter] = null;
+            removeResume(index);
         }
     }
 
     /**
-     * @return array, contains only Resumes in storage (without null)
+     * @return array, contains only Resumes in storage (without null);
      */
     public Resume[] getAll() {
         return Arrays.copyOf(storage, counter);
@@ -60,6 +67,13 @@ public abstract class AbstractArrayStorage implements Storage {
         return counter;
     }
 
+    /**
+     * @return index of the uuid, if it is contained in storage;
+     * otherwise return -1;
+     */
     protected abstract int searchResume(String uuid);
 
+    protected abstract void addResume(int index, Resume resume);
+
+    protected abstract void removeResume(int index);
 }
