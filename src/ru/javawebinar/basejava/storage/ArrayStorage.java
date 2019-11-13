@@ -9,7 +9,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected void addResume(int index, Resume resume) {
         storage[counter] = resume;
-        counter++;
     }
 
     @Override
@@ -24,8 +23,6 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void removeResume(int index) {
-        counter--;
         storage[index] = storage[counter];
-        storage[counter] = null;
     }
 }

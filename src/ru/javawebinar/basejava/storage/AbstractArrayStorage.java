@@ -26,7 +26,10 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = searchResume(resume.getUuid());
         if (index >= 0) {
             System.out.println("Resume " + resume.getUuid() + " save Error");
-        } else addResume(index, resume);
+        } else {
+            addResume(index, resume);
+            counter++;
+        }
     }
 
     public void update(Resume resume) {
@@ -52,7 +55,9 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index < 0) {
             System.out.println("Resume " + uuid + " delete Error");
         } else {
+            counter--;
             removeResume(index);
+            storage[counter] = null;
         }
     }
 
