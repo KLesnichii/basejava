@@ -1,5 +1,8 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -18,14 +21,11 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume resume) {
-        if (counter == STORAGE_SIZE) {//check Overflow
-            System.out.println("Resume " + resume.getUuid() + " save OverflowError");
-            return;
-        }
-
         int index = searchResume(resume.getUuid());
         if (index >= 0) {
-            System.out.println("Resume " + resume.getUuid() + " save Error");
+            throw new ExistStorageException(resume.getUuid());
+        } else if (counter == STORAGE_SIZE) {
+            throw new StorageException("Storage Overflow", resume.getUuid());
         } else {
             addResume(index, resume);
             counter++;
@@ -35,7 +35,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume resume) {
         int index = searchResume(resume.getUuid());
         if (index < 0) {
-            System.out.println("Resume " + resume.getUuid() + " update Error");
+            throw new NotExistStorageException(resume.getUuid());
         } else {
             storage[index] = resume;
         }
@@ -44,8 +44,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = searchResume(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " get Error");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -53,7 +52,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = searchResume(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " delete Error");
+            throw new NotExistStorageException(uuid);
         } else {
             counter--;
             removeResume(index);
