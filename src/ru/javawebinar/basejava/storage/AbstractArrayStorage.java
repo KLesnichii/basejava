@@ -43,14 +43,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void removeResume(int index) {
+    protected void removeResume(int index, String uuid) {
         counter--;
         removeElement(index);
         storage[counter] = null;
     }
 
     @Override
-    protected Resume getFromStorage(int index) {
+    protected Resume getFromStorage(int index, String uuid) {
         return storage[index];
     }
 
