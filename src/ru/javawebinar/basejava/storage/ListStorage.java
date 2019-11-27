@@ -4,7 +4,6 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<>();
@@ -46,11 +45,9 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected int searchResume(String uuid) {
-        ListIterator<Resume> iterator = storage.listIterator();
-        while (iterator.hasNext()) {
-            Resume resume = iterator.next();
-            if (resume.getUuid().equals(uuid)) {
-                return iterator.previousIndex();
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
             }
         }
         return -1;

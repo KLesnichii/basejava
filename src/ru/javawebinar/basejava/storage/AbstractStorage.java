@@ -43,18 +43,6 @@ public abstract class AbstractStorage implements Storage {
         }
     }
 
-    @Override
-    public abstract void clear();
-
-    /**
-     * @return array, contains only Resumes in storage (without null);
-     */
-    @Override
-    public abstract Resume[] getAll();
-
-    @Override
-    public abstract int size();
-
     /**
      * @return index of the uuid, if it is contained in storage;
      * otherwise return -1;
