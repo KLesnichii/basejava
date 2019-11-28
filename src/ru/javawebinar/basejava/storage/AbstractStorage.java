@@ -8,52 +8,59 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        int index = searchResume(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else addResume(resume, index);
+        String uuid = resume.getUuid();
+        Object foundElement = searchResume(uuid);
+
+        if (isExist(foundElement)) {
+            throw new ExistStorageException(uuid);
+        } else addResume(resume, foundElement);
     }
 
     @Override
     public void update(Resume resume) {
-        int index = searchResume(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            setResume(resume, index);
-        }
+        String uuid = resume.getUuid();
+        Object foundElement = searchResume(uuid);
+
+        checkNotExist(uuid, foundElement);
+        updateResume(resume, foundElement);
     }
 
     @Override
     public Resume get(String uuid) {
-        int index = searchResume(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return getFromStorage(index, uuid);
+        Object foundElement = searchResume(uuid);
+
+        checkNotExist(uuid, foundElement);
+        return getFromStorage(foundElement);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = searchResume(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            removeResume(index, uuid);
-        }
+        Object foundElement = searchResume(uuid);
+
+        checkNotExist(uuid, foundElement);
+        removeResume(foundElement);
     }
 
     /**
      * @return index of the uuid, if it is contained in storage;
      * otherwise return -1;
      */
-    protected abstract int searchResume(String uuid);
+    protected abstract Object searchResume(String uuid);
 
-    protected abstract void setResume(Resume resume, int index);
+    protected abstract void updateResume(Resume resume, Object foundElement);
 
-    protected abstract Resume getFromStorage(int index, String uuid);
+    protected abstract Resume getFromStorage(Object foundElement);
 
-    protected abstract void removeResume(int index, String uuid);
+    protected abstract void removeResume(Object foundElement);
 
-    protected abstract void addResume(Resume resume, int index);
+    protected abstract void addResume(Resume resume, Object foundElement);
+
+    protected abstract boolean isExist(Object foundElement);
+
+    private void checkNotExist(String uuid, Object foundElement) {
+        if (!isExist(foundElement)) {
+            throw new NotExistStorageException(uuid);
+        }
+    }
+
 }

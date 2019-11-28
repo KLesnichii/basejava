@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    Map<String, Resume> storage = new HashMap<>();
+    private Map<String, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
@@ -23,28 +23,32 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected int searchResume(String uuid) {
-        if (storage.containsKey(uuid)) return 1;
-        return -1;
+    protected String searchResume(String uuid) {
+        return storage.containsKey(uuid) ? uuid : "";
     }
 
     @Override
-    protected void setResume(Resume resume, int index) {
+    protected void updateResume(Resume resume, Object foundElement) {
+        storage.put((String) foundElement, resume);
+    }
+
+    @Override
+    protected Resume getFromStorage(Object foundElement) {
+        return storage.get(foundElement);
+    }
+
+    @Override
+    protected void removeResume(Object foundElement) {
+        storage.remove(foundElement);
+    }
+
+    @Override
+    protected void addResume(Resume resume, Object foundElement) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected Resume getFromStorage(int index, String uuid) {
-        return storage.get(uuid);
-    }
-
-    @Override
-    protected void removeResume(int index, String uuid) {
-        storage.remove(uuid);
-    }
-
-    @Override
-    protected void addResume(Resume resume, int index) {
-        storage.put(resume.getUuid(), resume);
+    protected boolean isExist(Object foundElement) {
+        return foundElement != "";
     }
 }
