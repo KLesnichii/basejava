@@ -28,27 +28,27 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume resume, Object foundElement) {
-        storage.put((String) foundElement, resume);
+    protected void updateResume(Resume resume, Object uuid) {
+        storage.put((String) uuid, resume);
     }
 
     @Override
-    protected Resume getFromStorage(Object foundElement) {
-        return storage.get(foundElement);
+    protected Resume getFromStorage(Object uuid) {
+        return storage.get(uuid);
     }
 
     @Override
-    protected void removeResume(Object foundElement) {
-        storage.remove(foundElement);
+    protected void removeResume(Object uuid) {
+        storage.remove(uuid);
     }
 
     @Override
-    protected void addResume(Resume resume, Object foundElement) {
+    protected void addResume(Resume resume, Object uuid) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected boolean isExist(Object foundElement) {
-        return foundElement != "";
+    protected boolean isExist(Object uuid) {
+        return uuid != "";
     }
 }
