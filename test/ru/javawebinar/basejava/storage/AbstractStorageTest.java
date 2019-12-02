@@ -7,8 +7,6 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Arrays;
-
 public abstract class AbstractStorageTest {
     protected Storage storage;
 
@@ -16,16 +14,20 @@ public abstract class AbstractStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String DUMMY = "dummy";
+    private static final String NAME1 = "B";
+    private static final String NAME2 = "A";
+    private static final String NAME3 = "A";
+    private static final String NAME4 = "C";
     private static final Resume resume_1;
     private static final Resume resume_2;
     private static final Resume resume_3;
     private static final Resume resume_4;
 
     static {
-        resume_1 = new Resume(UUID_1);
-        resume_2 = new Resume(UUID_2);
-        resume_3 = new Resume(UUID_3);
-        resume_4 = new Resume(DUMMY);
+        resume_1 = new Resume(UUID_1, NAME1);
+        resume_2 = new Resume(UUID_2, NAME2);
+        resume_3 = new Resume(UUID_3, NAME3);
+        resume_4 = new Resume(DUMMY, NAME4);
 
     }
 
@@ -54,10 +56,9 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAllTest() {
-        Resume[] expectedResumes = {resume_1, resume_2, resume_3};
-        Resume[] actualResumes = storage.getAll();
-        Arrays.sort(actualResumes);
+    public void getAllSortedTest() {
+        Resume[] expectedResumes = {resume_2, resume_3, resume_1};
+        Resume[] actualResumes = storage.getAllSorted().toArray(new Resume[0]);
         Assert.assertArrayEquals(expectedResumes, actualResumes);
     }
 
@@ -74,7 +75,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void clearTest() {
         storage.clear();
-        Assert.assertEquals(0, storage.getAll().length);
+        Assert.assertEquals(0, storage.getAllSorted().size());
     }
 
     @Test
