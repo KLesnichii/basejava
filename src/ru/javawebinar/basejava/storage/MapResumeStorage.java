@@ -27,36 +27,32 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected Resume searchResume(String uuid) {
-        Resume resume = new Resume(uuid);
-        return storage.values().contains(resume) ? resume : null;
+        return storage.get(uuid);
     }
 
     @Override
-    protected void updateResume(Resume resume, Object foundElement) {
+    protected void updateResume(Resume resume, Object foundResume) {
+        storage.put(((Resume) foundResume).getUuid(), resume);
+    }
+
+    @Override
+    protected Resume getFromStorage(Object foundResume) {
+        return (Resume) foundResume;
+    }
+
+    @Override
+    protected void removeResume(Object foundResume) {
+        storage.remove(((Resume) foundResume).getUuid());
+    }
+
+    @Override
+    protected void addResume(Resume resume, Object foundResume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected Resume getFromStorage(Object foundElement) {
-        for (Resume r : storage.values()) {
-            if (r.equals(foundElement)) return r;
-        }
-        return null;
-    }
-
-    @Override
-    protected void removeResume(Object foundElement) {
-        storage.values().remove(foundElement);
-    }
-
-    @Override
-    protected void addResume(Resume resume, Object foundElement) {
-        storage.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    protected boolean isExist(Object foundElement) {
-        return foundElement != null;
+    protected boolean isExist(Object foundResume) {
+        return foundResume != null;
     }
 
 }

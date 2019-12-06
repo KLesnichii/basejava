@@ -8,14 +8,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
-    protected static final Comparator<Resume> RESUME_COMPARATOR_FULL_NAME;
-
-    static {
-        RESUME_COMPARATOR_FULL_NAME = (o1, o2) -> {
-            int i = o1.getFullName().compareTo(o2.getFullName());
-            return (i == 0) ? o1.getUuid().compareTo(o2.getUuid()) : i;
-        };
-    }
+    protected static final Comparator<Resume> RESUME_COMPARATOR_FULL_NAME = (o1, o2) -> {
+        int i = o1.getFullName().compareTo(o2.getFullName());
+        return (i == 0) ? o1.getUuid().compareTo(o2.getUuid()) : i;
+    };
 
     @Override
     public List<Resume> getAllSorted() {
