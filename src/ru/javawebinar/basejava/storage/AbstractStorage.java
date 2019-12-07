@@ -23,27 +23,23 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public void save(Resume resume) {
         String uuid = resume.getUuid();
-        Object foundElement = searchResume(uuid);
-
-        if (isExist(foundElement)) {
-            throw new ExistStorageException(uuid);
-        } else addResume(resume, foundElement);
+        addResume(resume, checkNotExist(uuid));
     }
 
     @Override
     public void update(Resume resume) {
         String uuid = resume.getUuid();
-        updateResume(resume, checkNotExist(uuid));
+        updateResume(resume, checkExist(uuid));
     }
 
     @Override
     public Resume get(String uuid) {
-        return getFromStorage(checkNotExist(uuid));
+        return getFromStorage(checkExist(uuid));
     }
 
     @Override
     public void delete(String uuid) {
-        removeResume(checkNotExist(uuid));
+        removeResume(checkExist(uuid));
     }
 
     /**
@@ -64,10 +60,18 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract boolean isExist(Object foundElement);
 
-    private Object checkNotExist(String uuid) {
+    private Object checkExist(String uuid) {
         Object foundElement = searchResume(uuid);
         if (!isExist(foundElement)) {
             throw new NotExistStorageException(uuid);
+        }
+        return foundElement;
+    }
+
+    private Object checkNotExist(String uuid) {
+        Object foundElement = searchResume(uuid);
+        if (isExist(foundElement)) {
+            throw new ExistStorageException(uuid);
         }
         return foundElement;
     }
