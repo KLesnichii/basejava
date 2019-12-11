@@ -2,12 +2,9 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class MapResumeStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage<Resume> {
     private Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -31,28 +28,28 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume resume, Object foundResume) {
-        storage.put(((Resume) foundResume).getUuid(), resume);
+    protected void updateResume(Resume resume, Resume foundResume) {
+        storage.put(foundResume.getUuid(), resume);
     }
 
     @Override
-    protected Resume getFromStorage(Object foundResume) {
-        return (Resume) foundResume;
+    protected Resume getFromStorage(Resume foundResume) {
+        return foundResume;
     }
 
     @Override
-    protected void removeResume(Object foundResume) {
-        storage.remove(((Resume) foundResume).getUuid());
+    protected void removeResume(Resume foundResume) {
+        storage.remove(foundResume.getUuid());
     }
 
     @Override
-    protected void addResume(Resume resume, Object foundResume) {
+    protected void addResume(Resume resume, Resume foundResume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected boolean isExist(Object foundResume) {
-        return foundResume != null;
+    protected boolean isExist(Resume foundResume) {
+        return Objects.nonNull(foundResume);
     }
 
 }

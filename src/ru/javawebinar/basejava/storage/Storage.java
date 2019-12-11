@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.storage;
 
+import jdk.nashorn.internal.runtime.logging.Logger;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.List;
