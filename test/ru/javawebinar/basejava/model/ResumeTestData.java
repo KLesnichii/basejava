@@ -1,23 +1,14 @@
-package ru.javawebinar.basejava;
-
-import ru.javawebinar.basejava.model.*;
+package ru.javawebinar.basejava.model;
 
 import java.time.LocalDate;
 import java.util.*;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        final String NAME1 = "Григорий Кислин";
-        Resume resume_1 = new Resume(NAME1);
-        Map<ContactType, String> contacts = resume_1.getContacts();
-        Map<SectionType, Section> sections = resume_1.getSections();
-        List<String> achievements = new ArrayList<>();
-        List<String> qualifications = new ArrayList<>();
-        List<Organization> experience = new ArrayList<>();
-        List<Organization> education = new ArrayList<>();
-        List<Period> Period = new ArrayList<>();
+        final String name = "Григорий Кислин";
+        Resume grigoriyResume = new Resume(name);
 
-
+        Map<ContactType, String> contacts = grigoriyResume.getContacts();
         contacts.put(ContactType.PHONE_NUMBER, "+7(921) 855-0482");
         contacts.put(ContactType.EMAIL, "gkislin@yandex.ru");
         contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
@@ -25,11 +16,11 @@ public class ResumeTestData {
         contacts.put(ContactType.HOME_PAGE, "http://gkislin.ru/");
         contacts.put(ContactType.OTHER_PAGE, "https://stackoverflow.com/users/548473/gkislin");
 
-
+        Map<SectionType, Section> sections = grigoriyResume.getSections();
         sections.put(SectionType.OBJECTIVE, new TextFieldSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-
         sections.put(SectionType.PERSONAL, new TextFieldSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
+        List<String> achievements = new ArrayList<>();
         achievements.add("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP)." +
                 " Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
         achievements.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
@@ -41,6 +32,7 @@ public class ResumeTestData {
         achievements.add("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
         sections.put(SectionType.ACHIEVEMENT, new TextListSection(achievements));
 
+        List<String> qualifications = new ArrayList<>();
         qualifications.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
         qualifications.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
         qualifications.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,");
@@ -60,7 +52,8 @@ public class ResumeTestData {
         qualifications.add("Родной русский, английский \"upper intermediate\"");
         sections.put(SectionType.QUALIFICATIONS, new TextListSection(qualifications));
 
-
+        List<Organization> experience = new ArrayList<>();
+        List<Period> Period = new ArrayList<>();
         Period.add(new Period("Автор проекта.", LocalDate.of(2013, 10, 1), LocalDate.now(), "Создание, организация и проведение Java онлайн проектов и стажировок."));
         experience.add(new Organization("Java Online Projects", "http://javaops.ru/", new ArrayList<>(Period)));
         Period.clear();
@@ -98,10 +91,11 @@ public class ResumeTestData {
         Period.clear();
         sections.put(SectionType.EXPERIENCE, new OrganizationSection(experience));
 
+        List<Organization> education = new ArrayList<>();
         Period.add(new Period("\"Functional Programming Principles in Scala\" by Martin Odersky", LocalDate.of(2013, 3, 1), LocalDate.of(2013, 5, 1), null));
         education.add(new Organization("Coursera", "https://www.coursera.org/learn/progfun1", new ArrayList<>(Period)));
         Period.clear();
-        Period.add(new Period("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", LocalDate.of(2011, 3, 1), LocalDate.of(2011, 3, 1), null));
+        Period.add(new Period("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", LocalDate.of(2011, 3, 1), LocalDate.of(2011, 4, 1), null));
         education.add(new Organization("Luxoft", "https://www.luxoft-training.ru/kurs/obektno-orientirovannyy_analiz_i_proektirovanie_na_uml.html", new ArrayList<>(Period)));
         Period.clear();
         Period.add(new Period("3 месяца обучения мобильным IN сетям (Берлин)", LocalDate.of(2005, 1, 1), LocalDate.of(2005, 4, 1), null));
@@ -120,48 +114,46 @@ public class ResumeTestData {
         sections.put(SectionType.EDUCATION, new OrganizationSection(education));
 
 
-        System.out.println("uuid: " + resume_1.getUuid());
-        System.out.println("Имя Фамилия: " + resume_1.getFullName());
+        System.out.println("uuid: " + grigoriyResume.getUuid());
+        System.out.println("Имя Фамилия: " + grigoriyResume.getFullName());
         System.out.println("Контакты:");
-        Map<ContactType, String> resumeContacts = resume_1.getContacts();
-        for (Map.Entry<ContactType, String> entry : resumeContacts.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        for (ContactType contactType : ContactType.values()) {
+            System.out.println(contactType + ": " + grigoriyResume.getContactByType(contactType));
         }
-        System.out.println("");
-        Map<SectionType, Section> resumeSection = resume_1.getSections();
-        for (Map.Entry<SectionType, Section> entry : resumeSection.entrySet()) {
-            switch (entry.getKey()) {
+        System.out.println();
+        for (SectionType sectionType : SectionType.values()) {
+            switch (sectionType) {
                 case OBJECTIVE:
                 case PERSONAL:
-                    System.out.println(entry.getKey() + ": " + entry.getValue());
-                    System.out.println("");
+                    System.out.println(sectionType + ": " + grigoriyResume.getSectionByType(sectionType));
+                    System.out.println();
                     break;
                 case ACHIEVEMENT:
                 case QUALIFICATIONS:
-                    System.out.println(entry.getKey() + ":");
-                    for (String s : ((TextListSection) entry.getValue()).getTextList()) {
+                    System.out.println(sectionType + ":");
+                    for (String s : ((TextListSection) grigoriyResume.getSectionByType(sectionType)).getTextList()) {
                         System.out.println(s);
                     }
-                    System.out.println("");
+                    System.out.println();
                     break;
                 case EXPERIENCE:
                 case EDUCATION:
-                    System.out.println(entry.getKey() + ":");
-                    for (Organization o : ((OrganizationSection) entry.getValue()).getOrganizationList()) {
+                    System.out.println(sectionType + ":");
+                    for (Organization o : ((OrganizationSection) grigoriyResume.getSectionByType(sectionType)).getOrganizationList()) {
                         System.out.println("header: " + o.getHeader());
                         System.out.println("link: " + o.getLink());
                         for (Period p : o.getPeriodList()) {
                             System.out.println(p.getTitle());
                             System.out.println(p.getStartDate());
                             System.out.println(p.getEndDate());
-                            System.out.println(p.getText());
-                            System.out.println("");
+                            String text = p.getText();
+                            if (text != null) System.out.println(text);
+                            System.out.println();
                         }
                     }
-                    System.out.println("");
                     break;
                 default:
-                    throw new IllegalStateException("Unexpected value: " + entry.getKey());
+                    throw new IllegalStateException("Unexpected value: " + sectionType);
             }
         }
     }

@@ -7,7 +7,7 @@ public class OrganizationSection implements Section {
     private final List<Organization> organizationList;
 
     public OrganizationSection(List<Organization> organizations) {
-        this.organizationList = organizations;
+        this.organizationList = Objects.requireNonNull(organizations, "organizations must not be null");
     }
 
     public List<Organization> getOrganizationList() {
@@ -21,12 +21,12 @@ public class OrganizationSection implements Section {
 
         OrganizationSection that = (OrganizationSection) o;
 
-        return Objects.equals(organizationList, that.organizationList);
+        return organizationList.equals(that.organizationList);
     }
 
     @Override
     public int hashCode() {
-        return organizationList != null ? organizationList.hashCode() : 0;
+        return Objects.hashCode(organizationList);
     }
 
     @Override

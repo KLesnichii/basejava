@@ -1,9 +1,6 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -11,8 +8,8 @@ import java.util.UUID;
 public class Resume {
     private final String uuid; // Unique identifier
     private final String fullName;
-    private final Map<ContactType, String> contacts = new HashMap<>();
-    private final Map<SectionType, Section> sections = new HashMap<>();
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -29,6 +26,14 @@ public class Resume {
 
     public Map<SectionType, Section> getSections() {
         return sections;
+    }
+
+    public String getContactByType(ContactType contactType) {
+        return contacts.get(contactType);
+    }
+
+    public Section getSectionByType(SectionType sectionType) {
+        return sections.get(sectionType);
     }
 
     public String getUuid() {
@@ -53,21 +58,15 @@ public class Resume {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(uuid, fullName, contacts, sections);
+    }
+
+    @Override
     public String toString() {
         return "uuid " + uuid +
                 " fullName " + fullName +
                 " contacts " + contacts.toString() +
                 " sections " + sections.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        int result = uuid.hashCode();
-        result = 31 * result + fullName.hashCode();
-        result = 31 * result + contacts.hashCode();
-        result = 31 * result + sections.hashCode();
-        return result;
-
-
     }
 }

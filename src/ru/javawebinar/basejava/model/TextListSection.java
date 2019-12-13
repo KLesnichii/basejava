@@ -11,7 +11,7 @@ public class TextListSection implements Section {
     }
 
     public List<String> getTextList() {
-        return textList;
+        return Objects.requireNonNull(textList, "textList must not be null");
     }
 
     @Override
@@ -21,12 +21,12 @@ public class TextListSection implements Section {
 
         TextListSection that = (TextListSection) o;
 
-        return Objects.equals(textList, that.textList);
+        return textList.equals(that.textList);
     }
 
     @Override
     public int hashCode() {
-        return textList != null ? textList.hashCode() : 0;
+        return Objects.hashCode(textList);
     }
 
     @Override

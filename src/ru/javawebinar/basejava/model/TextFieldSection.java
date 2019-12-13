@@ -6,7 +6,7 @@ public class TextFieldSection implements Section {
     private final String text;
 
     public TextFieldSection(String text) {
-        this.text = text;
+        this.text = Objects.requireNonNull(text, "text must not be null");
     }
 
     public String getText() {
@@ -20,12 +20,12 @@ public class TextFieldSection implements Section {
 
         TextFieldSection that = (TextFieldSection) o;
 
-        return Objects.equals(text, that.text);
+        return text.equals(that.text);
     }
 
     @Override
     public int hashCode() {
-        return text != null ? text.hashCode() : 0;
+        return Objects.hashCode(text);
     }
 
     @Override

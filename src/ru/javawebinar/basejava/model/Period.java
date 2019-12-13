@@ -10,9 +10,9 @@ public class Period {
     private final String text;
 
     public Period(String title, LocalDate startDate, LocalDate endDate, String text) {
-        this.title = title;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.title = Objects.requireNonNull(title, "title must not be null");
+        this.startDate = Objects.requireNonNull(startDate, "startDate must not be null");
+        this.endDate = Objects.requireNonNull(endDate, "endDate must not be null");
         this.text = text;
     }
 
@@ -39,19 +39,15 @@ public class Period {
 
         Period period = (Period) o;
 
-        if (!Objects.equals(title, period.title)) return false;
-        if (!Objects.equals(startDate, period.startDate)) return false;
-        if (!Objects.equals(endDate, period.endDate)) return false;
+        if (!title.equals(period.title)) return false;
+        if (!startDate.equals(period.startDate)) return false;
+        if (!endDate.equals(period.endDate)) return false;
         return Objects.equals(text, period.text);
     }
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        result = 31 * result + (text != null ? text.hashCode() : 0);
-        return result;
+        return Objects.hash(title, startDate, endDate, text);
     }
 
     @Override
