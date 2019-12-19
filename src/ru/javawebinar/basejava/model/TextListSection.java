@@ -7,11 +7,12 @@ public class TextListSection implements Section {
     private final List<String> textList;
 
     public TextListSection(List<String> textList) {
-        this.textList = textList;
+        this.textList = Objects.requireNonNull(textList, "textList must not be null");
+        ;
     }
 
     public List<String> getTextList() {
-        return Objects.requireNonNull(textList, "textList must not be null");
+        return textList;
     }
 
     @Override
