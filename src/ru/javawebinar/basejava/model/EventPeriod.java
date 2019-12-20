@@ -3,13 +3,13 @@ package ru.javawebinar.basejava.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Period {
+public class EventPeriod {
     private final String title;
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String text;
 
-    public Period(String title, LocalDate startDate, LocalDate endDate, String text) {
+    public EventPeriod(String title, LocalDate startDate, LocalDate endDate, String text) {
         this.title = Objects.requireNonNull(title, "title must not be null");
         this.startDate = Objects.requireNonNull(startDate, "startDate must not be null");
         this.endDate = Objects.requireNonNull(endDate, "endDate must not be null");
@@ -37,12 +37,12 @@ public class Period {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Period period = (Period) o;
+        EventPeriod eventPeriod = (EventPeriod) o;
 
-        if (!title.equals(period.title)) return false;
-        if (!startDate.equals(period.startDate)) return false;
-        if (!endDate.equals(period.endDate)) return false;
-        return Objects.equals(text, period.text);
+        if (!title.equals(eventPeriod.title)) return false;
+        if (!startDate.equals(eventPeriod.startDate)) return false;
+        if (!endDate.equals(eventPeriod.endDate)) return false;
+        return Objects.equals(text, eventPeriod.text);
     }
 
     @Override

@@ -43,19 +43,19 @@ public class ResumeTestData {
         addTextListSection(resume2, SectionType.QUALIFICATIONS, "resume2 qualification1", "resume2 qualification2", "resume2 qualification3");
         addTextListSection(resume3, SectionType.QUALIFICATIONS, "resume3 qualification1", "resume3 qualification2", "resume3 qualification3", "resume3 qualification4");
         addOrganizationSection(resume1, SectionType.EXPERIENCE, "resume1 header", "resume1 link",
-                new Period("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
+                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
         addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header", "resume2 link",
-                new Period("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 experience"));
+                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 experience"));
         addOrganizationSection(resume3, SectionType.EXPERIENCE, "resume3 header", "resume3 link",
-                new Period("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 experience1"),
-                new Period("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 experience2"));
+                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 experience1"),
+                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 experience2"));
         addOrganizationSection(resume1, SectionType.EDUCATION, "resume1 header", "resume1 link",
-                new Period("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 education"));
+                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 education"));
         addOrganizationSection(resume2, SectionType.EDUCATION, "resume2 header", "resume2 link",
-                new Period("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 education"));
+                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 education"));
         addOrganizationSection(resume3, SectionType.EDUCATION, "resume3 header", "resume3 link",
-                new Period("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 education1"),
-                new Period("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 education2"));
+                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 education1"),
+                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 education2"));
     }
 
     public static void main(String[] args) {
@@ -107,64 +107,64 @@ public class ResumeTestData {
         sections.put(SectionType.QUALIFICATIONS, new TextListSection(qualifications));
 
         List<Organization> experience = new ArrayList<>();
-        List<Period> period = new ArrayList<>();
-        period.add(new Period("Автор проекта.", DateUtil.of(2013, Month.OCTOBER), LocalDate.now(), "Создание, организация и проведение Java онлайн проектов и стажировок."));
-        experience.add(new Organization("Java Online Projects", "http://javaops.ru/", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Старший разработчик (backend)", DateUtil.of(2014, Month.OCTOBER), DateUtil.of(2016, Month.JANUARY), "Проектирование и разработка онлайн платформы " +
+        List<EventPeriod> eventPeriods = new ArrayList<>();
+        eventPeriods.add(new EventPeriod("Автор проекта.", DateUtil.of(2013, Month.OCTOBER), LocalDate.now(), "Создание, организация и проведение Java онлайн проектов и стажировок."));
+        experience.add(new Organization("Java Online Projects", "http://javaops.ru/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Старший разработчик (backend)", DateUtil.of(2014, Month.OCTOBER), DateUtil.of(2016, Month.JANUARY), "Проектирование и разработка онлайн платформы " +
                 "управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
-        experience.add(new Organization("Wrike", "https://www.wrike.com/", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Java архитектор", DateUtil.of(2012, Month.APRIL), DateUtil.of(2014, Month.JANUARY), "Организация процесса разработки системы ERP " +
+        experience.add(new Organization("Wrike", "https://www.wrike.com/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Java архитектор", DateUtil.of(2012, Month.APRIL), DateUtil.of(2014, Month.JANUARY), "Организация процесса разработки системы ERP " +
                 "для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части" +
                 " системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера " +
                 "документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"));
-        experience.add(new Organization("RIT Center", null, new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Ведущий программист", DateUtil.of(2010, Month.DECEMBER), DateUtil.of(2012, Month.APRIL), "Участие в проекте Deutsche Bank CRM (WebLogic, " +
+        experience.add(new Organization("RIT Center", null, new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Ведущий программист", DateUtil.of(2010, Month.DECEMBER), DateUtil.of(2012, Month.APRIL), "Участие в проекте Deutsche Bank CRM (WebLogic, " +
                 "Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области" +
                 " алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5."));
-        experience.add(new Organization("Luxoft (Deutsche Bank)", "https://www.luxoft.com/", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Ведущий специалист", DateUtil.of(2008, Month.JUNE), DateUtil.of(2010, Month.DECEMBER), "Дизайн и имплементация Java EE " +
+        experience.add(new Organization("Luxoft (Deutsche Bank)", "https://www.luxoft.com/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Ведущий специалист", DateUtil.of(2008, Month.JUNE), DateUtil.of(2010, Month.DECEMBER), "Дизайн и имплементация Java EE " +
                 "фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. " +
                 "Разработка online JMX клиента (Python/ Jython, Django, ExtJS)"));
-        experience.add(new Organization("Yota", "https://www.yota.ru/", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Разработчик ПО", DateUtil.of(2007, Month.MAY), DateUtil.of(2008, Month.JUNE), "Реализация клиентской (Eclipse RCP) и " +
+        experience.add(new Organization("Yota", "https://www.yota.ru/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Разработчик ПО", DateUtil.of(2007, Month.MAY), DateUtil.of(2008, Month.JUNE), "Реализация клиентской (Eclipse RCP) и " +
                 "серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining)"));
-        experience.add(new Organization("Enkata", "https://www.pega.com/products/pega-platform/robotic-automation", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Разработчик ПО", DateUtil.of(2005, Month.JANUARY), DateUtil.of(2007, Month.FEBRUARY), "Разработка информационной модели, " +
+        experience.add(new Organization("Enkata", "https://www.pega.com/products/pega-platform/robotic-automation", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Разработчик ПО", DateUtil.of(2005, Month.JANUARY), DateUtil.of(2007, Month.FEBRUARY), "Разработка информационной модели, " +
                 "проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix)."));
-        experience.add(new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Инженер по аппаратному и программному тестированию", DateUtil.of(1997, Month.SEPTEMBER), DateUtil.of(2005, Month.JANUARY), "Тестирование, " +
+        experience.add(new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Инженер по аппаратному и программному тестированию", DateUtil.of(1997, Month.SEPTEMBER), DateUtil.of(2005, Month.JANUARY), "Тестирование, " +
                 "отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
-        experience.add(new Organization("Alcatel", "http://www.alcatel.ru/", new ArrayList<>(period)));
-        period.clear();
+        experience.add(new Organization("Alcatel", "http://www.alcatel.ru/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
         sections.put(SectionType.EXPERIENCE, new OrganizationSection(experience));
 
         List<Organization> education = new ArrayList<>();
-        period.add(new Period("\"Functional Programming Principles in Scala\" by Martin Odersky", DateUtil.of(2013, Month.MARCH), DateUtil.of(2013, Month.MAY), null));
-        education.add(new Organization("Coursera", "https://www.coursera.org/learn/progfun1", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", DateUtil.of(2011, Month.MAY), DateUtil.of(2011, Month.APRIL), null));
-        education.add(new Organization("Luxoft", "https://www.luxoft-training.ru/kurs/obektno-orientirovannyy_analiz_i_proektirovanie_na_uml.html", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("3 месяца обучения мобильным IN сетям (Берлин)", DateUtil.of(2005, Month.JANUARY), DateUtil.of(2005, Month.APRIL), null));
-        education.add(new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("6 месяцев обучения цифровым телефонным сетям (Москва)", DateUtil.of(1997, Month.SEPTEMBER), DateUtil.of(1998, Month.MARCH), null));
-        education.add(new Organization("Alcatel", "http://www.alcatel.ru/", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Аспирантура (программист С, С++)", DateUtil.of(1993, Month.SEPTEMBER), DateUtil.of(1996, Month.JULY), null));
-        period.add(new Period("Инженер (программист Fortran, C)", DateUtil.of(1987, Month.SEPTEMBER), DateUtil.of(1993, Month.JULY), null));
-        education.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/ru/", new ArrayList<>(period)));
-        period.clear();
-        period.add(new Period("Закончил с отличием", DateUtil.of(1984, Month.SEPTEMBER), DateUtil.of(1987, Month.JUNE), null));
-        education.add(new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/", new ArrayList<>(period)));
-        period.clear();
+        eventPeriods.add(new EventPeriod("\"Functional Programming Principles in Scala\" by Martin Odersky", DateUtil.of(2013, Month.MARCH), DateUtil.of(2013, Month.MAY), null));
+        education.add(new Organization("Coursera", "https://www.coursera.org/learn/progfun1", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", DateUtil.of(2011, Month.MAY), DateUtil.of(2011, Month.APRIL), null));
+        education.add(new Organization("Luxoft", "https://www.luxoft-training.ru/kurs/obektno-orientirovannyy_analiz_i_proektirovanie_na_uml.html", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("3 месяца обучения мобильным IN сетям (Берлин)", DateUtil.of(2005, Month.JANUARY), DateUtil.of(2005, Month.APRIL), null));
+        education.add(new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("6 месяцев обучения цифровым телефонным сетям (Москва)", DateUtil.of(1997, Month.SEPTEMBER), DateUtil.of(1998, Month.MARCH), null));
+        education.add(new Organization("Alcatel", "http://www.alcatel.ru/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Аспирантура (программист С, С++)", DateUtil.of(1993, Month.SEPTEMBER), DateUtil.of(1996, Month.JULY), null));
+        eventPeriods.add(new EventPeriod("Инженер (программист Fortran, C)", DateUtil.of(1987, Month.SEPTEMBER), DateUtil.of(1993, Month.JULY), null));
+        education.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/ru/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
+        eventPeriods.add(new EventPeriod("Закончил с отличием", DateUtil.of(1984, Month.SEPTEMBER), DateUtil.of(1987, Month.JUNE), null));
+        education.add(new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/", new ArrayList<>(eventPeriods)));
+        eventPeriods.clear();
         sections.put(SectionType.EDUCATION, new OrganizationSection(education));
 
         resumePrint(grigoriyResume);
@@ -199,7 +199,7 @@ public class ResumeTestData {
                     for (Organization o : ((OrganizationSection) resume.getSectionByType(sectionType)).getOrganizationList()) {
                         System.out.println("header: " + o.getHeader());
                         System.out.println("link: " + o.getLink());
-                        for (Period p : o.getPeriodList()) {
+                        for (EventPeriod p : o.getEventPeriodList()) {
                             System.out.println(p.getTitle());
                             System.out.println(p.getStartDate());
                             System.out.println(p.getEndDate());
@@ -235,10 +235,10 @@ public class ResumeTestData {
         sections.put(type, new TextListSection(Arrays.asList(text)));
     }
 
-    private static void addOrganizationSection(Resume resume, SectionType type, String header, String link, Period... period) {
+    private static void addOrganizationSection(Resume resume, SectionType type, String header, String link, EventPeriod... eventPeriods) {
         Map<SectionType, Section> sections = resume.getSections();
         List<Organization> organizationList = new ArrayList<>();
-        organizationList.add(new Organization(header, link, Arrays.asList(period)));
+        organizationList.add(new Organization(header, link, Arrays.asList(eventPeriods)));
         sections.put(type, new OrganizationSection(organizationList));
     }
 }

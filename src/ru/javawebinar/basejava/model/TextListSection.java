@@ -8,7 +8,6 @@ public class TextListSection implements Section {
 
     public TextListSection(List<String> textList) {
         this.textList = Objects.requireNonNull(textList, "textList must not be null");
-        ;
     }
 
     public List<String> getTextList() {

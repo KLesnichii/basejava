@@ -6,12 +6,12 @@ import java.util.Objects;
 public class Organization {
     private final String header;
     private final String link;
-    private final List<Period> periodList;
+    private final List<EventPeriod> eventPeriodList;
 
-    public Organization(String header, String link, List<Period> periodList) {
+    public Organization(String header, String link, List<EventPeriod> eventPeriodList) {
         this.header = Objects.requireNonNull(header, "header must not be null");
         this.link = link;
-        this.periodList = Objects.requireNonNull(periodList, "periodList must not be null");
+        this.eventPeriodList = Objects.requireNonNull(eventPeriodList, "periodList must not be null");
     }
 
     public String getHeader() {
@@ -22,8 +22,8 @@ public class Organization {
         return link;
     }
 
-    public List<Period> getPeriodList() {
-        return periodList;
+    public List<EventPeriod> getEventPeriodList() {
+        return eventPeriodList;
     }
 
     @Override
@@ -35,18 +35,18 @@ public class Organization {
 
         if (!header.equals(that.header)) return false;
         if (!Objects.equals(link, that.link)) return false;
-        return periodList.equals(that.periodList);
+        return eventPeriodList.equals(that.eventPeriodList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(header, link, periodList);
+        return Objects.hash(header, link, eventPeriodList);
     }
 
     @Override
     public String toString() {
         return "header " + header +
                 " link " + link +
-                " periodList " + periodList.toString();
+                " periodList " + eventPeriodList.toString();
     }
 }
