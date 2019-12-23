@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainFile {
+    private static int recLvCount = 0;
+
     public static void main(String[] args) {
         String filePath = "basejava/.gitignore";
 
@@ -35,16 +37,29 @@ public class MainFile {
 
     }
 
-    public static void printDirectoryFiles(File directory) {
+//    private static void printDirectoryFiles(File directory) {printDirectoryFiles(directory,0);}
+
+    private static void printDirectoryFiles(File directory) {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File f : files) {
-                if (f.isDirectory()) {
-                    printDirectoryFiles(f);
+                if (f.isFile()) {
+                    shift(recLvCount);
+                    System.out.println("* " + f.getName());
                 } else {
-                    System.out.println(f.getName());
+                    shift(recLvCount);
+                    System.out.println("■ " + f.getName());
+                    recLvCount++;
+                    printDirectoryFiles(f);
                 }
             }
+        }
+        recLvCount--;
+    }
+
+    private static void shift(int number) {
+        for (int i = 0; i < number; i++) {
+            System.out.print("\t");
         }
     }
 }

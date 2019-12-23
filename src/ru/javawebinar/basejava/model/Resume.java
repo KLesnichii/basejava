@@ -1,13 +1,17 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final String uuid; // Unique identifier
     private final String fullName;
+
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
@@ -18,6 +22,14 @@ public class Resume {
     public Resume(String uuid, String fullName) {
         this.uuid = Objects.requireNonNull(uuid, "uuid must not be null");
         this.fullName = Objects.requireNonNull(fullName, "fullName must not be null");
+    }
+
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void addSection(SectionType type, Section section) {
+        sections.put(type, section);
     }
 
     public Map<ContactType, String> getContacts() {

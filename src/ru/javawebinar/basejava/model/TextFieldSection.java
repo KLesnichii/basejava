@@ -1,8 +1,11 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class TextFieldSection implements Section {
+public class TextFieldSection implements Section, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final String text;
 
     public TextFieldSection(String text) {
