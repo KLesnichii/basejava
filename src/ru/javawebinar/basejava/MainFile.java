@@ -37,8 +37,6 @@ public class MainFile {
 
     }
 
-//    private static void printDirectoryFiles(File directory) {printDirectoryFiles(directory,0);}
-
     private static void printDirectoryFiles(File directory) {
         File[] files = directory.listFiles();
         if (files != null) {
