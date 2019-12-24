@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 
@@ -43,11 +44,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> getAllResumeList() {
         List<Resume> storage = new ArrayList<>();
-        try {
-            Files.list(directory).forEach(path -> storage.add(getFromStorage(path)));
-        } catch (IOException e) {
-            throw new StorageException("NullPointerException", null);
-        }
+        pathToStream(directory).forEach(path -> storage.add(getFromStorage(path)));
         return storage;
     }
 
@@ -95,17 +92,17 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::removeResume);
-        } catch (IOException e) {
-            throw new StorageException("NullPointerException", null);
-        }
+        pathToStream(directory).forEach(this::removeResume);
     }
 
     @Override
     public int size() {
+        return (int) pathToStream(directory).count();
+    }
+
+    private Stream<Path> pathToStream(Path directory) {
         try {
-            return (int) Files.list(directory).count();
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("NullPointerException", null);
         }
