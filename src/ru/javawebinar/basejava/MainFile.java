@@ -3,9 +3,9 @@ package ru.javawebinar.basejava;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 public class MainFile {
-    private static int recLvCount = 0;
 
     public static void main(String[] args) {
         String filePath = "basejava/.gitignore";
@@ -33,31 +33,24 @@ public class MainFile {
         }
 
         File directory = new File("E:\\OldUsers\\shmel\\Desktop\\JavaOps\\basejava\\src");
-        printDirectoryFiles(directory);
+        printDirectoryFiles(directory, 0);
 
     }
 
-    private static void printDirectoryFiles(File directory) {
+    private static void printDirectoryFiles(File directory, int recLvCount) {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File f : files) {
+                Stream.generate(() -> "\t").limit(recLvCount).forEach(System.out::print);
                 if (f.isFile()) {
-                    shift(recLvCount);
                     System.out.println("* " + f.getName());
                 } else {
-                    shift(recLvCount);
                     System.out.println("■ " + f.getName());
-                    recLvCount++;
-                    printDirectoryFiles(f);
+                    printDirectoryFiles(f, recLvCount + 1);
                 }
             }
         }
-        recLvCount--;
     }
 
-    private static void shift(int number) {
-        for (int i = 0; i < number; i++) {
-            System.out.print("\t");
-        }
-    }
+
 }

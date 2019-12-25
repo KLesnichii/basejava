@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serialization.StorageSerialization;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class FileStorage extends AbstractStorage<File> {
     private StorageSerialization serialization;
     private File directory;
 
-    protected FileStorage(File directory) {
+    public FileStorage(File directory, StorageSerialization serialization) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -21,15 +22,7 @@ public class FileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
-    }
-
-    public FileStorage(File directory, StorageSerialization serialization) {
-        this(directory);
-        this.serialization = serialization;
-    }
-
-    public void setSerialization(StorageSerialization serialization) {
-        this.serialization = serialization;
+        this.serialization = Objects.requireNonNull(serialization, "serialization must not be null");
     }
 
     @Override
@@ -81,7 +74,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected boolean isExist(File file) {
-        return file.exists();
+        return file.isFile();
     }
 
     @Override

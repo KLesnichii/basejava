@@ -2,38 +2,29 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serialization.StorageSerialization;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 
 public class PathStorage extends AbstractStorage<Path> {
     private StorageSerialization serialization;
     private Path directory;
 
-    protected PathStorage(String dir) {
+    public PathStorage(String dir, StorageSerialization serialization) {
         Path directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
         this.directory = directory;
-    }
-
-    public PathStorage(String dir, StorageSerialization serialization) {
-        this(dir);
-        this.serialization = serialization;
-    }
-
-    public void setSerialization(StorageSerialization serialization) {
-        this.serialization = serialization;
+        this.serialization = Objects.requireNonNull(serialization, "serialization must not be null");
     }
 
     @Override
@@ -43,9 +34,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getAllResumeList() {
-        List<Resume> storage = new ArrayList<>();
-        pathToStream(directory).forEach(path -> storage.add(getFromStorage(path)));
-        return storage;
+        return pathToStream(directory).map(this::getFromStorage).collect(Collectors.toList());
     }
 
     @Override
@@ -87,7 +76,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected boolean isExist(Path path) {
-        return Files.exists(path, NOFOLLOW_LINKS);
+        return Files.isRegularFile(path);
     }
 
     @Override
