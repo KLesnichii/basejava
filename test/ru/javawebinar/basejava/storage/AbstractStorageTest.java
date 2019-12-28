@@ -12,7 +12,6 @@ import java.io.File;
 import static ru.javawebinar.basejava.model.ResumeTestData.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("E:\\OldUsers\\shmel\\Desktop\\JavaOps\\basejava\\storage");
     protected static final String STORAGE_PATH = "E:\\OldUsers\\shmel\\Desktop\\JavaOps\\basejava\\storage";
     protected Storage storage;
 

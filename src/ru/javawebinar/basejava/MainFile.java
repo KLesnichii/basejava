@@ -3,7 +3,6 @@ package ru.javawebinar.basejava;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.stream.Stream;
 
 public class MainFile {
 
@@ -33,24 +32,21 @@ public class MainFile {
         }
 
         File directory = new File("E:\\OldUsers\\shmel\\Desktop\\JavaOps\\basejava\\src");
-        printDirectoryFiles(directory, 0);
-
+        printDirectoryFiles(directory, "");
     }
 
-    private static void printDirectoryFiles(File directory, int recLvCount) {
+    private static void printDirectoryFiles(File directory, String shift) {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File f : files) {
-                Stream.generate(() -> "\t").limit(recLvCount).forEach(System.out::print);
+                System.out.print(shift);
                 if (f.isFile()) {
                     System.out.println("* " + f.getName());
                 } else {
                     System.out.println("■ " + f.getName());
-                    printDirectoryFiles(f, recLvCount + 1);
+                    printDirectoryFiles(f, shift + "\t");
                 }
             }
         }
     }
-
-
 }

@@ -34,7 +34,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getAllResumeList() {
-        return pathToStream(directory).map(this::getFromStorage).collect(Collectors.toList());
+        return pathToStream().map(this::getFromStorage).collect(Collectors.toList());
     }
 
     @Override
@@ -81,15 +81,15 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        pathToStream(directory).forEach(this::removeResume);
+        pathToStream().forEach(this::removeResume);
     }
 
     @Override
     public int size() {
-        return (int) pathToStream(directory).count();
+        return (int) pathToStream().count();
     }
 
-    private Stream<Path> pathToStream(Path directory) {
+    private Stream<Path> pathToStream() {
         try {
             return Files.list(directory);
         } catch (IOException e) {
