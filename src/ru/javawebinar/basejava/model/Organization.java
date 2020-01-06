@@ -1,15 +1,21 @@
 package ru.javawebinar.basejava.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String header;
-    private final String link;
-    private final List<EventPeriod> eventPeriodList;
+    private String header;
+    private String link;
+    private List<EventPeriod> eventPeriodList;
+
+    public Organization() {
+    }
 
     public Organization(String header, String link, List<EventPeriod> eventPeriodList) {
         this.header = Objects.requireNonNull(header, "header must not be null");

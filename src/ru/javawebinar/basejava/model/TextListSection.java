@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class TextListSection implements Section, Serializable {
+
+public class TextListSection extends Section implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final List<String> textList;
+    private List<String> textList;
+
+    public TextListSection() {
+    }
 
     public TextListSection(List<String> textList) {
         this.textList = Objects.requireNonNull(textList, "textList must not be null");

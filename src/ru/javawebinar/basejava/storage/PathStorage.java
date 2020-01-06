@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.serialization.StorageSerialization;
+import ru.javawebinar.basejava.storage.serialization.StreamSerialization;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
-    private StorageSerialization serialization;
+    private StreamSerialization serialization;
     private Path directory;
 
-    public PathStorage(String dir, StorageSerialization serialization) {
+    public PathStorage(String dir, StreamSerialization serialization) {
         Path directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {

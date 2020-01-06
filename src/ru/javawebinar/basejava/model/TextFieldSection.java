@@ -3,10 +3,14 @@ package ru.javawebinar.basejava.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class TextFieldSection implements Section, Serializable {
+
+public class TextFieldSection extends Section implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String text;
+    private String text;
+
+    public TextFieldSection() {
+    }
 
     public TextFieldSection(String text) {
         this.text = Objects.requireNonNull(text, "text must not be null");

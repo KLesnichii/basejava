@@ -1,19 +1,26 @@
 package ru.javawebinar.basejava.model;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.*;
 
 /**
  * Initial resume class
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement()
+
 public class Resume implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String uuid; // Unique identifier
-    private final String fullName;
+    private String uuid; // Unique identifier
+    private String fullName;
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
+    public Resume() {
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);

@@ -2,11 +2,10 @@ package ru.javawebinar.basejava.storage.serialization;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.serialization.StorageSerialization;
 
 import java.io.*;
 
-public class ObjectStreamStorageSerialization implements StorageSerialization {
+public class ObjectStreamSerialization implements StreamSerialization {
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
