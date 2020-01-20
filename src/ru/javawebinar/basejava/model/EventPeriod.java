@@ -30,6 +30,13 @@ public class EventPeriod implements Serializable {
         this.text = text;
     }
 
+    public EventPeriod(String title, LocalDate startDate, LocalDate endDate) {
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        text = null;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -51,12 +58,12 @@ public class EventPeriod implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EventPeriod eventPeriod = (EventPeriod) o;
+        EventPeriod that = (EventPeriod) o;
 
-        if (!title.equals(eventPeriod.title)) return false;
-        if (!startDate.equals(eventPeriod.startDate)) return false;
-        if (!endDate.equals(eventPeriod.endDate)) return false;
-        return Objects.equals(text, eventPeriod.text);
+        if (!title.equals(that.title)) return false;
+        if (!startDate.equals(that.startDate)) return false;
+        if (!endDate.equals(that.endDate)) return false;
+        return text != null ? text.equals(that.text) : that.text == null;
     }
 
     @Override

@@ -17,6 +17,12 @@ public class Organization implements Serializable {
     public Organization() {
     }
 
+    public Organization(String header, List<EventPeriod> eventPeriodList) {
+        this.header = header;
+        link = null;
+        this.eventPeriodList = eventPeriodList;
+    }
+
     public Organization(String header, String link, List<EventPeriod> eventPeriodList) {
         this.header = Objects.requireNonNull(header, "header must not be null");
         this.link = link;
@@ -43,7 +49,7 @@ public class Organization implements Serializable {
         Organization that = (Organization) o;
 
         if (!header.equals(that.header)) return false;
-        if (!Objects.equals(link, that.link)) return false;
+        if (link != null ? !link.equals(that.link) : that.link != null) return false;
         return eventPeriodList.equals(that.eventPeriodList);
     }
 

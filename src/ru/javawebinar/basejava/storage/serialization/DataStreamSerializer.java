@@ -84,11 +84,11 @@ public class DataStreamSerializer implements StreamSerialization {
     }
 
     @FunctionalInterface
-    private interface CycleReader<T> {
+    private interface CycleReader {
         void read() throws IOException;
     }
 
-    private <T> void cycleRead(DataInputStream dis, CycleReader<T> reader) throws IOException {
+    private void cycleRead(DataInputStream dis, CycleReader reader) throws IOException {
         int size = dis.readInt();
         for (int i = 0; i < size; i++) {
             reader.read();
