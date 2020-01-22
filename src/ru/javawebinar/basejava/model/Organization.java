@@ -19,13 +19,13 @@ public class Organization implements Serializable {
 
     public Organization(String header, List<EventPeriod> eventPeriodList) {
         this.header = header;
-        link = null;
+        link = "";
         this.eventPeriodList = eventPeriodList;
     }
 
     public Organization(String header, String link, List<EventPeriod> eventPeriodList) {
         this.header = Objects.requireNonNull(header, "header must not be null");
-        this.link = link;
+        this.link = link != null ? link : "";
         this.eventPeriodList = Objects.requireNonNull(eventPeriodList, "periodList must not be null");
     }
 

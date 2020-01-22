@@ -27,14 +27,14 @@ public class EventPeriod implements Serializable {
         this.title = Objects.requireNonNull(title, "title must not be null");
         this.startDate = Objects.requireNonNull(startDate, "startDate must not be null");
         this.endDate = Objects.requireNonNull(endDate, "endDate must not be null");
-        this.text = text;
+        this.text = text != null ? text : "";
     }
 
     public EventPeriod(String title, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        text = null;
+        text = "";
     }
 
     public String getTitle() {
