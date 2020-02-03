@@ -3,16 +3,15 @@ package ru.javawebinar.basejava.storage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.javawebinar.basejava.util.Config;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.io.File;
-
 import static ru.javawebinar.basejava.model.ResumeTestData.*;
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_PATH = "E:\\OldUsers\\shmel\\Desktop\\JavaOps\\basejava\\storage";
+    protected static final String STORAGE_PATH = Config.getInstance().getStorageDir().getAbsolutePath();
     protected Storage storage;
 
     protected AbstractStorageTest(Storage storage) {

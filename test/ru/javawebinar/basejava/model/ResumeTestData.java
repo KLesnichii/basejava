@@ -26,36 +26,36 @@ public class ResumeTestData {
         resume3 = new Resume(UUID_3, NAME3);
         resume4 = new Resume(DUMMY, NAME4);
 
-        addContacts(resume1, "+7(921) 111", "111@yandex.ru", "https://github.com/111", "111", "http://111.ru/", "https://stackoverflow.com/users/548473/111");
-        addContacts(resume2, "+7(921) 222", "222@yandex.ru", "https://github.com/222", "222", "http://222.ru/", "https://stackoverflow.com/users/548473/222");
-        addContacts(resume3, "+7(921) 333", "3331@yandex.ru", "https://github.com/333", "333", "http://333.ru/", "https://stackoverflow.com/users/548473/333");
-
-        addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
-        addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
-        addTextFieldSection(resume3, SectionType.OBJECTIVE, "resume3 objective");
-        addTextFieldSection(resume1, SectionType.PERSONAL, "resume1 personal");
-        addTextFieldSection(resume2, SectionType.PERSONAL, "resume2 personal");
-        addTextFieldSection(resume3, SectionType.PERSONAL, "resume3 personal");
-        addTextListSection(resume1, SectionType.ACHIEVEMENT, "resume1 achievement1", "resume1 achievement2");
-        addTextListSection(resume2, SectionType.ACHIEVEMENT, "resume2 achievement1", "resume2 achievement2", "resume2 achievement3");
-        addTextListSection(resume3, SectionType.ACHIEVEMENT, "resume3 achievement1", "resume3 achievement2", "resume3 achievement3", "resume3 achievement4");
-        addTextListSection(resume1, SectionType.QUALIFICATIONS, "resume1 qualification1", "resume1 qualification2");
-        addTextListSection(resume2, SectionType.QUALIFICATIONS, "resume2 qualification1", "resume2 qualification2", "resume2 qualification3");
-        addTextListSection(resume3, SectionType.QUALIFICATIONS, "resume3 qualification1", "resume3 qualification2", "resume3 qualification3", "resume3 qualification4");
-        addOrganizationSection(resume1, SectionType.EXPERIENCE, "resume1 header", "resume1 link",
-                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
-        addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header", "resume2 link",
-                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 experience"));
-        addOrganizationSection(resume3, SectionType.EXPERIENCE, "resume3 header", "resume3 link",
-                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 experience1"),
-                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 experience2"));
-        addOrganizationSection(resume1, SectionType.EDUCATION, "resume1 header", "resume1 link",
-                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 education"));
-        addOrganizationSection(resume2, SectionType.EDUCATION, "resume2 header", "resume2 link",
-                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 education"));
-        addOrganizationSection(resume3, SectionType.EDUCATION, "resume3 header", "resume3 link",
-                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 education1"),
-                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 education2"));
+//        addContacts(resume1, "+7(921) 111", "111@yandex.ru", "https://github.com/111", "111", "http://111.ru/", "https://stackoverflow.com/users/548473/111");
+//        addContacts(resume2, "+7(921) 222", "222@yandex.ru", "https://github.com/222", "222", "http://222.ru/", "https://stackoverflow.com/users/548473/222");
+//        addContacts(resume3, "+7(921) 333", "3331@yandex.ru", "https://github.com/333", "333", "http://333.ru/", "https://stackoverflow.com/users/548473/333");
+//
+//        addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
+//        addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
+//        addTextFieldSection(resume3, SectionType.OBJECTIVE, "resume3 objective");
+//        addTextFieldSection(resume1, SectionType.PERSONAL, "resume1 personal");
+//        addTextFieldSection(resume2, SectionType.PERSONAL, "resume2 personal");
+//        addTextFieldSection(resume3, SectionType.PERSONAL, "resume3 personal");
+//        addTextListSection(resume1, SectionType.ACHIEVEMENT, "resume1 achievement1", "resume1 achievement2");
+//        addTextListSection(resume2, SectionType.ACHIEVEMENT, "resume2 achievement1", "resume2 achievement2", "resume2 achievement3");
+//        addTextListSection(resume3, SectionType.ACHIEVEMENT, "resume3 achievement1", "resume3 achievement2", "resume3 achievement3", "resume3 achievement4");
+//        addTextListSection(resume1, SectionType.QUALIFICATIONS, "resume1 qualification1", "resume1 qualification2");
+//        addTextListSection(resume2, SectionType.QUALIFICATIONS, "resume2 qualification1", "resume2 qualification2", "resume2 qualification3");
+//        addTextListSection(resume3, SectionType.QUALIFICATIONS, "resume3 qualification1", "resume3 qualification2", "resume3 qualification3", "resume3 qualification4");
+//        addOrganizationSection(resume1, SectionType.EXPERIENCE, "resume1 header", "resume1 link",
+//                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
+//        addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header", "resume2 link",
+//                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 experience"));
+//        addOrganizationSection(resume3, SectionType.EXPERIENCE, "resume3 header", "resume3 link",
+//                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 experience1"),
+//                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 experience2"));
+//        addOrganizationSection(resume1, SectionType.EDUCATION, "resume1 header", "resume1 link",
+//                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 education"));
+//        addOrganizationSection(resume2, SectionType.EDUCATION, "resume2 header", "resume2 link",
+//                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 education"));
+//        addOrganizationSection(resume3, SectionType.EDUCATION, "resume3 header", "resume3 link",
+//                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 education1"),
+//                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 education2"));
     }
 
     public static void main(String[] args) {
