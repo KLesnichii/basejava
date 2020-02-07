@@ -26,9 +26,9 @@ public class ResumeTestData {
         resume3 = new Resume(UUID_3, NAME3);
         resume4 = new Resume(DUMMY, NAME4);
 
-//        addContacts(resume1, "+7(921) 111", "111@yandex.ru", "https://github.com/111", "111", "http://111.ru/", "https://stackoverflow.com/users/548473/111");
-//        addContacts(resume2, "+7(921) 222", "222@yandex.ru", "https://github.com/222", "222", "http://222.ru/", "https://stackoverflow.com/users/548473/222");
-//        addContacts(resume3, "+7(921) 333", "3331@yandex.ru", "https://github.com/333", "333", "http://333.ru/", "https://stackoverflow.com/users/548473/333");
+        addContacts(resume1, "+7(921) 111", "111@yandex.ru", "https://github.com/111", "111", "http://111.ru/", "https://stackoverflow.com/users/548473/111");
+        addContacts(resume2, "+7(921) 222", "222@yandex.ru", "https://github.com/222", "222", "http://222.ru/", "https://stackoverflow.com/users/548473/222");
+        addContacts(resume3, "+7(921) 333", "3331@yandex.ru", "https://github.com/333", "333", "http://333.ru/", "https://stackoverflow.com/users/548473/333");
 //
 //        addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
 //        addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
