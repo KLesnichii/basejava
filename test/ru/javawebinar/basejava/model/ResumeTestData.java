@@ -10,25 +10,44 @@ public class ResumeTestData {
     public static final String UUID_1 = "uuid1";
     public static final String UUID_2 = "uuid2";
     public static final String UUID_3 = "uuid3";
+    public static final String UUID_U = "uuidU";
     public static final String DUMMY = "dummy";
     public static final String NAME1 = "B";
     public static final String NAME2 = "A";
     public static final String NAME3 = "A";
     public static final String NAME4 = "C";
+    public static final String NAME_U = "U";
     public static final Resume resume1;
     public static final Resume resume2;
     public static final Resume resume3;
     public static final Resume resume4;
+    public static final Resume resumeU;
+    public static final Resume resumeU1;
 
     static {
         resume1 = new Resume(UUID_1, NAME1);
         resume2 = new Resume(UUID_2, NAME2);
         resume3 = new Resume(UUID_3, NAME3);
         resume4 = new Resume(DUMMY, NAME4);
+        resumeU = new Resume(UUID_U, NAME_U);
+        resumeU1 = new Resume(UUID_U, NAME_U);
 
         addContacts(resume1, "+7(921) 111", "111@yandex.ru", "https://github.com/111", "111", "http://111.ru/", "https://stackoverflow.com/users/548473/111");
         addContacts(resume2, "+7(921) 222", "222@yandex.ru", "https://github.com/222", "222", "http://222.ru/", "https://stackoverflow.com/users/548473/222");
         addContacts(resume3, "+7(921) 333", "3331@yandex.ru", "https://github.com/333", "333", "http://333.ru/", "https://stackoverflow.com/users/548473/333");
+
+        Map<ContactType, String> mapContactU = resumeU.getContacts();
+        mapContactU.put(ContactType.EMAIL, "uuu@yandex.ru");
+        mapContactU.put(ContactType.GITHUB, "https://github.com/uuu");
+        mapContactU.put(ContactType.SKYPE, "UUU");
+
+        Map<ContactType, String> mapContactU1 = resumeU1.getContacts();
+        mapContactU1.put(ContactType.PHONE_NUMBER, "+7(921) 111");
+        mapContactU1.put(ContactType.EMAIL, "111@yandex.ru");
+        mapContactU1.put(ContactType.GITHUB, "https://github.com/111");
+        mapContactU1.put(ContactType.HOME_PAGE, "http://111.ru/");
+        mapContactU1.put(ContactType.OTHER_PAGE, "https://stackoverflow.com/users/548473/111");
+
 //
 //        addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
 //        addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
