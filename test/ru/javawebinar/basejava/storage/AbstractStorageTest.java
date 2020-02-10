@@ -40,7 +40,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSortedTest() {
-        Resume[] expectedResumes = {resume2, resume3, resume1};
+        storage.save(resume4);
+        Resume[] expectedResumes = {resume2, resume3, resume1, resume4};
         Resume[] actualResumes = storage.getAllSorted().toArray(new Resume[0]);
         Assert.assertArrayEquals(expectedResumes, actualResumes);
     }
