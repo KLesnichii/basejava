@@ -8,8 +8,6 @@ import ru.javawebinar.basejava.sql.SqlHelper;
 import java.sql.*;
 import java.util.*;
 
-import static ru.javawebinar.basejava.storage.AbstractStorage.RESUME_COMPARATOR_FULL_NAME;
-
 public class SqlStorage implements Storage {
     private SqlHelper sqlHelper;
 
@@ -94,16 +92,15 @@ public class SqlStorage implements Storage {
                 "LEFT JOIN contact c " +
                 "ON r.uuid = c.resume_uuid " +
                 "ORDER BY r.full_name, r.uuid", preparedStatement -> {
+            Map<String, Resume> resumeMap = new LinkedHashMap<>();
             ResultSet rs = preparedStatement.executeQuery();
-            TreeSet<Resume> resumeTreeSet = new TreeSet<>(RESUME_COMPARATOR_FULL_NAME);
             while (rs.next()) {
                 String checkUuid = rs.getString("uuid");
                 String fullName = rs.getString("full_name");
-                Resume resume = new Resume(checkUuid, fullName);
-                resumeTreeSet.add(resume);
-                addContact(resumeTreeSet.last(), rs);
+                resumeMap.putIfAbsent(checkUuid, new Resume(checkUuid, fullName));
+                addContact(resumeMap.get(checkUuid), rs);
             }
-            return new ArrayList<>(resumeTreeSet);
+            return new ArrayList<>(resumeMap.values());
         });
     }
 
