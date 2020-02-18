@@ -28,8 +28,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void saveTest() {
-        storage.save(resume4);
-        Assert.assertEquals(resume4, storage.get(DUMMY));
+        storage.save(resumeU);
+        Assert.assertEquals(resumeU, storage.get(UUID_U));
         Assert.assertEquals(4, storage.size());
     }
 

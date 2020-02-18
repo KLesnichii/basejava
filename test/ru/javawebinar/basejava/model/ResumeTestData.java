@@ -48,19 +48,30 @@ public class ResumeTestData {
         mapContactU1.put(ContactType.HOME_PAGE, "http://111.ru/");
         mapContactU1.put(ContactType.OTHER_PAGE, "https://stackoverflow.com/users/548473/111");
 
-//
-//        addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
-//        addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
-//        addTextFieldSection(resume3, SectionType.OBJECTIVE, "resume3 objective");
-//        addTextFieldSection(resume1, SectionType.PERSONAL, "resume1 personal");
-//        addTextFieldSection(resume2, SectionType.PERSONAL, "resume2 personal");
-//        addTextFieldSection(resume3, SectionType.PERSONAL, "resume3 personal");
-//        addTextListSection(resume1, SectionType.ACHIEVEMENT, "resume1 achievement1", "resume1 achievement2");
-//        addTextListSection(resume2, SectionType.ACHIEVEMENT, "resume2 achievement1", "resume2 achievement2", "resume2 achievement3");
-//        addTextListSection(resume3, SectionType.ACHIEVEMENT, "resume3 achievement1", "resume3 achievement2", "resume3 achievement3", "resume3 achievement4");
-//        addTextListSection(resume1, SectionType.QUALIFICATIONS, "resume1 qualification1", "resume1 qualification2");
-//        addTextListSection(resume2, SectionType.QUALIFICATIONS, "resume2 qualification1", "resume2 qualification2", "resume2 qualification3");
-//        addTextListSection(resume3, SectionType.QUALIFICATIONS, "resume3 qualification1", "resume3 qualification2", "resume3 qualification3", "resume3 qualification4");
+        Map<SectionType, Section> mapSectionU = resumeU.getSections();
+        mapSectionU.put(SectionType.OBJECTIVE,new TextFieldSection("resumeU objective"));
+        String[] sectionsU = {"resumeU achievement1", "resumeU achievement2", "resumeU achievement3"};
+        mapSectionU.put(SectionType.ACHIEVEMENT,new TextListSection(Arrays.asList(sectionsU)));
+
+        Map<SectionType, Section> mapSectionU1 = resumeU1.getSections();
+        mapSectionU1.put(SectionType.PERSONAL,new TextFieldSection("resume1 personal"));
+        String[] sectionsU1A= {"resume1 achievement1", "resume1 achievement2", "resume1 achievement3"};
+        mapSectionU1.put(SectionType.ACHIEVEMENT,new TextListSection(Arrays.asList(sectionsU1A)));
+        String[] sectionsU1Q= {"resume1 qualification1", "resume1 qualification2"};
+        mapSectionU1.put(SectionType.QUALIFICATIONS,new TextListSection(Arrays.asList(sectionsU1Q)));
+
+        addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
+        addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
+        addTextFieldSection(resume3, SectionType.OBJECTIVE, "resume3 objective");
+        addTextFieldSection(resume1, SectionType.PERSONAL, "resume1 personal");
+        addTextFieldSection(resume2, SectionType.PERSONAL, "resume2 personal");
+        addTextFieldSection(resume3, SectionType.PERSONAL, "resume3 personal");
+        addTextListSection(resume1, SectionType.ACHIEVEMENT, "resume1 achievement1", "resume1 achievement2");
+        addTextListSection(resume2, SectionType.ACHIEVEMENT, "resume2 achievement1", "resume2 achievement2", "resume2 achievement3");
+        addTextListSection(resume3, SectionType.ACHIEVEMENT, "resume3 achievement1", "resume3 achievement2", "resume3 achievement3", "resume3 achievement4");
+        addTextListSection(resume1, SectionType.QUALIFICATIONS, "resume1 qualification1", "resume1 qualification2");
+        addTextListSection(resume2, SectionType.QUALIFICATIONS, "resume2 qualification1", "resume2 qualification2", "resume2 qualification3");
+        addTextListSection(resume3, SectionType.QUALIFICATIONS, "resume3 qualification1", "resume3 qualification2", "resume3 qualification3", "resume3 qualification4");
 //        addOrganizationSection(resume1, SectionType.EXPERIENCE, "resume1 header", "resume1 link",
 //                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
 //        addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header", "resume2 link",
