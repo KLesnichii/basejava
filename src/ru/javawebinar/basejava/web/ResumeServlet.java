@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -20,30 +19,48 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        String name = request.getParameter("name");
-//        List<Resume> resumeList =  new SqlStorage(Config.getInstance().getDbUrl(),
-//                Config.getInstance().getDbUser(),
-//                Config.getInstance().getDbPassword()).getAllSorted();
-        List<Resume> resumeList = new SqlStorage("jdbc:postgresql://localhost:5432/resumes",
-                "postgres",
-                "postgres").getAllSorted();
-        StringBuilder addResume = new StringBuilder();
-        for (Resume r : resumeList) {
-            addResume.append("<tr>\n<td>").append(r.getUuid()).append("</td>\n<td>").append(r.getFullName()).append("</td>\n</tr>\n");
+        SqlStorage storage = new SqlStorage(Config.getInstance().getDbUrl(),
+                Config.getInstance().getDbUser(),
+                Config.getInstance().getDbPassword());
+        String uuid = request.getParameter("uuid");
+        if (uuid != null) {
+            Resume resume = storage.get(uuid);
+            String resumeHTML = "<html>\n" +
+                    "<head>\n" +
+                    "<title>Resume</title>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "<p>" +
+                    "<b>uuid: </b>" +
+                    resume.getUuid() +
+                    "</p>" +
+                    "<p>" +
+                    "<b>FullName: </b>" +
+                    resume.getFullName() +
+                    "</p>" +
+                    "</body>\n" +
+                    "</html>";
+            response.getWriter().write(resumeHTML);
+        } else {
+            StringBuilder addResume = new StringBuilder();
+            for (Resume r : storage.getAllSorted()) {
+                addResume.append("<tr>\n<td>").append(r.getUuid()).append("</td>\n<td>").append(r.getFullName()).append("</td>\n</tr>\n");
+            }
+            String tableHTML = "<html>\n" +
+                    "<head>\n" +
+                    "<title>Resume</title>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "<table border=\"1\">\n" +
+                    "<tr>\n" +
+                    "<td>uuid</td>\n" +
+                    "<td>full_name</td>\n" +
+                    "</tr>\n" +
+                    addResume +
+                    "</table>\n" +
+                    "</body>\n" +
+                    "</html>";
+            response.getWriter().write(tableHTML);
         }
-        response.getWriter().write("<html>\n" +
-                "<head>\n" +
-                "<title>Resume</title>\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<table border=\"1\">\n" +
-                "<tr>\n" +
-                "<td>uuid</td>\n" +
-                "<td>full_name</td>\n" +
-                "</tr>\n"+
-                addResume +
-                "</table>\n" +
-                "</body>\n" +
-                "</html>");
     }
 }
