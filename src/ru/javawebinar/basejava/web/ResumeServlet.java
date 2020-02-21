@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ResumeServlet extends HttpServlet {
+    private final static Storage storage = Config.getInstance().getStorage();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
@@ -19,7 +20,6 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        Storage storage = Config.getInstance().getStorage();
         String uuid = request.getParameter("uuid");
         if (uuid != null) {
             Resume resume = storage.get(uuid);
