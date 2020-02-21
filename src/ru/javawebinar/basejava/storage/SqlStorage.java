@@ -121,8 +121,8 @@ public class SqlStorage implements Storage {
                 }
             }
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                    "SELECT c.resume_uuid, c.type, c.value " +
-                    "FROM contact c ")) {
+                    "SELECT resume_uuid, type, value " +
+                    "FROM contact")) {
                 ResultSet rsContact = preparedStatement.executeQuery();
                 while (rsContact.next()) {
                     addContact(resumeMap.get(rsContact.getString("resume_uuid")),
@@ -130,8 +130,8 @@ public class SqlStorage implements Storage {
                 }
             }
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                    "SELECT s.resume_uuid, s.type, s.value " +
-                    "FROM section s ")) {
+                    "SELECT resume_uuid, type, value " +
+                    "FROM section")) {
                 ResultSet rsSection = preparedStatement.executeQuery();
                 while (rsSection.next()) {
                     addSection(resumeMap.get(rsSection.getString("resume_uuid")),
@@ -173,11 +173,16 @@ public class SqlStorage implements Storage {
     private void insertIntoSection(Resume resume, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO section (value, resume_uuid, type) VALUES (?,?,?)")) {
             for (Map.Entry<SectionType, Section> entry : resume.getSections().entrySet()) {
-                if (entry.getValue() instanceof TextFieldSection) {
-                    preparedStatement.setString(1, ((TextFieldSection) entry.getValue()).getText());
-                } else {
-                    String sectionText = String.join("\n", ((TextListSection) entry.getValue()).getTextList());
-                    preparedStatement.setString(1, sectionText);
+                switch (entry.getKey()) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        preparedStatement.setString(1, ((TextFieldSection) entry.getValue()).getText());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        String sectionText = String.join("\n", ((TextListSection) entry.getValue()).getTextList());
+                        preparedStatement.setString(1, sectionText);
+                        break;
                 }
                 preparedStatement.setString(2, resume.getUuid());
                 preparedStatement.setString(3, entry.getKey().name());
@@ -190,7 +195,7 @@ public class SqlStorage implements Storage {
     private void addContact(Resume resume, ResultSet rs) throws SQLException {
         String type = rs.getString("type");
         String value = rs.getString("value");
-        if (type != null) {
+        if (value != null) {
             resume.addContact(ContactType.valueOf(type), value);
         }
     }
@@ -198,14 +203,19 @@ public class SqlStorage implements Storage {
     private void addSection(Resume resume, ResultSet rs) throws SQLException {
         String type = rs.getString("type");
         String value = rs.getString("value");
-        if (type != null) {
-            if (!value.contains("\n")) {
-                resume.addSection(SectionType.valueOf(type), new TextFieldSection(value));
-            } else {
-                resume.addSection(SectionType.valueOf(type),
-                        new TextListSection(Arrays.asList(value.split("\n"))));
+        if (value != null) {
+            SectionType sectionType = SectionType.valueOf(type);
+            switch (sectionType) {
+                case OBJECTIVE:
+                case PERSONAL:
+                    resume.addSection(sectionType, new TextFieldSection(value));
+                    break;
+                case ACHIEVEMENT:
+                case QUALIFICATIONS:
+                    resume.addSection(sectionType,
+                            new TextListSection(Arrays.asList(value.split("\n"))));
+                    break;
             }
-
         }
     }
 

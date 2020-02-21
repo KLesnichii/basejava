@@ -1,7 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.SqlStorage;
+import ru.javawebinar.basejava.storage.Storage;
 import ru.javawebinar.basejava.util.Config;
 
 import javax.servlet.http.HttpServlet;
@@ -19,9 +19,7 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        SqlStorage storage = new SqlStorage(Config.getInstance().getDbUrl(),
-                Config.getInstance().getDbUser(),
-                Config.getInstance().getDbPassword());
+        Storage storage = Config.getInstance().getStorage();
         String uuid = request.getParameter("uuid");
         if (uuid != null) {
             Resume resume = storage.get(uuid);
