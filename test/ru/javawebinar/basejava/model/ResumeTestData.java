@@ -49,16 +49,22 @@ public class ResumeTestData {
         mapContactU1.put(ContactType.OTHER_PAGE, "https://stackoverflow.com/users/548473/111");
 
         Map<SectionType, Section> mapSectionU = resumeU.getSections();
-        mapSectionU.put(SectionType.OBJECTIVE,new TextFieldSection("resumeU objective"));
+        mapSectionU.put(SectionType.OBJECTIVE, new TextFieldSection("resumeU objective"));
         String[] sectionsU = {"resumeU achievement1", "resumeU achievement2", "resumeU achievement3"};
-        mapSectionU.put(SectionType.ACHIEVEMENT,new TextListSection(Arrays.asList(sectionsU)));
+        mapSectionU.put(SectionType.ACHIEVEMENT, new TextListSection(Arrays.asList(sectionsU)));
 
         Map<SectionType, Section> mapSectionU1 = resumeU1.getSections();
-        mapSectionU1.put(SectionType.PERSONAL,new TextFieldSection("resume1 personal"));
-        String[] sectionsU1A= {"resume1 achievement1", "resume1 achievement2", "resume1 achievement3"};
-        mapSectionU1.put(SectionType.ACHIEVEMENT,new TextListSection(Arrays.asList(sectionsU1A)));
-        String[] sectionsU1Q= {"resume1 qualification1", "resume1 qualification2"};
-        mapSectionU1.put(SectionType.QUALIFICATIONS,new TextListSection(Arrays.asList(sectionsU1Q)));
+        mapSectionU1.put(SectionType.PERSONAL, new TextFieldSection("resume1 personal"));
+        String[] sectionsU1A = {"resume1 achievement1", "resume1 achievement2", "resume1 achievement3"};
+        mapSectionU1.put(SectionType.ACHIEVEMENT, new TextListSection(Arrays.asList(sectionsU1A)));
+        String[] sectionsU1Q = {"resume1 qualification1", "resume1 qualification2"};
+        mapSectionU1.put(SectionType.QUALIFICATIONS, new TextListSection(Arrays.asList(sectionsU1Q)));
+
+        addOrganizationSection(resumeU, SectionType.EXPERIENCE, "resumeU header", "resumeU link",
+                new EventPeriod("resumeU title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resumeU experience"));
+        addOrganizationSection(resumeU1, SectionType.EDUCATION, "resumeU1 header", "resumeU1 link",
+                new EventPeriod("resumeU1 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resumeU1 education1"),
+                new EventPeriod("resumeU1 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resumeU1 education2"));
 
         addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
         addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
@@ -72,20 +78,20 @@ public class ResumeTestData {
         addTextListSection(resume1, SectionType.QUALIFICATIONS, "resume1 qualification1", "resume1 qualification2");
         addTextListSection(resume2, SectionType.QUALIFICATIONS, "resume2 qualification1", "resume2 qualification2", "resume2 qualification3");
         addTextListSection(resume3, SectionType.QUALIFICATIONS, "resume3 qualification1", "resume3 qualification2", "resume3 qualification3", "resume3 qualification4");
-//        addOrganizationSection(resume1, SectionType.EXPERIENCE, "resume1 header", "resume1 link",
-//                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
-//        addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header", "resume2 link",
-//                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 experience"));
-//        addOrganizationSection(resume3, SectionType.EXPERIENCE, "resume3 header", "resume3 link",
-//                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 experience1"),
-//                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 experience2"));
-//        addOrganizationSection(resume1, SectionType.EDUCATION, "resume1 header", "resume1 link",
-//                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 education"));
-//        addOrganizationSection(resume2, SectionType.EDUCATION, "resume2 header", "resume2 link",
-//                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 education"));
-//        addOrganizationSection(resume3, SectionType.EDUCATION, "resume3 header", "resume3 link",
-//                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 education1"),
-//                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 education2"));
+        addOrganizationSection(resume1, SectionType.EXPERIENCE, "resume1 header", "resume1 link",
+                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
+        addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header", "resume2 link",
+                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 experience"));
+        addOrganizationSection(resume3, SectionType.EXPERIENCE, "resume3 header", "resume3 link",
+                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 experience1"),
+                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 experience2"));
+        addOrganizationSection(resume1, SectionType.EDUCATION, "resume1 header", "resume1 link",
+                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 education"));
+        addOrganizationSection(resume2, SectionType.EDUCATION, "resume2 header", "resume2 link",
+                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 education"));
+        addOrganizationSection(resume3, SectionType.EDUCATION, "resume3 header", "resume3 link",
+                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 education1"),
+                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 education2"));
     }
 
     public static void main(String[] args) {

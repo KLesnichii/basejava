@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.sql.SqlHelper;
+import ru.javawebinar.basejava.util.JsonParser;
 
 import java.sql.*;
 import java.util.*;
@@ -183,6 +184,11 @@ public class SqlStorage implements Storage {
                         String sectionText = String.join("\n", ((TextListSection) entry.getValue()).getTextList());
                         preparedStatement.setString(1, sectionText);
                         break;
+                    case EDUCATION:
+                    case EXPERIENCE:
+                        String organizationSection = JsonParser.write(entry.getValue(), Section.class);
+                        preparedStatement.setString(1, organizationSection);
+                        break;
                 }
                 preparedStatement.setString(2, resume.getUuid());
                 preparedStatement.setString(3, entry.getKey().name());
@@ -214,6 +220,10 @@ public class SqlStorage implements Storage {
                 case QUALIFICATIONS:
                     resume.addSection(sectionType,
                             new TextListSection(Arrays.asList(value.split("\n"))));
+                    break;
+                case EDUCATION:
+                case EXPERIENCE:
+                    resume.addSection(sectionType, JsonParser.read(value, Section.class));
                     break;
             }
         }

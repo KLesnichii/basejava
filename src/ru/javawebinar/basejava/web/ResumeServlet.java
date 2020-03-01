@@ -1,9 +1,11 @@
 package ru.javawebinar.basejava.web;
 
+import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.Storage;
 import ru.javawebinar.basejava.util.Config;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,53 +14,48 @@ import java.io.IOException;
 public class ResumeServlet extends HttpServlet {
     private final static Storage storage = Config.getInstance().getStorage();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        String uuid = request.getParameter("uuid");
+        String fullName = request.getParameter("fullName");
+        Resume r = storage.get(uuid);
+        r.setFullName(fullName);
+        for (ContactType type : ContactType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                r.addContact(type, value);
+            } else {
+                r.getContacts().remove(type);
+            }
+        }
+        storage.update(r);
+        response.sendRedirect("resume");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String uuid = request.getParameter("uuid");
-        if (uuid != null) {
-            Resume resume = storage.get(uuid);
-            String resumeHTML = "<html>\n" +
-                    "<head>\n" +
-                    "<title>Resume</title>\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "<p>" +
-                    "<b>uuid: </b>" +
-                    resume.getUuid() +
-                    "</p>" +
-                    "<p>" +
-                    "<b>FullName: </b>" +
-                    resume.getFullName() +
-                    "</p>" +
-                    "</body>\n" +
-                    "</html>";
-            response.getWriter().write(resumeHTML);
-        } else {
-            StringBuilder addResume = new StringBuilder();
-            for (Resume r : storage.getAllSorted()) {
-                addResume.append("<tr>\n<td>").append(r.getUuid()).append("</td>\n<td>").append(r.getFullName()).append("</td>\n</tr>\n");
-            }
-            String tableHTML = "<html>\n" +
-                    "<head>\n" +
-                    "<title>Resume</title>\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "<table border=\"1\">\n" +
-                    "<tr>\n" +
-                    "<td>uuid</td>\n" +
-                    "<td>full_name</td>\n" +
-                    "</tr>\n" +
-                    addResume +
-                    "</table>\n" +
-                    "</body>\n" +
-                    "</html>";
-            response.getWriter().write(tableHTML);
+        String action = request.getParameter("action");
+        if (action == null) {
+            request.setAttribute("resumes", storage.getAllSorted());
+            request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
+            return;
         }
+        Resume r;
+        switch (action) {
+            case "delete":
+                storage.delete(uuid);
+                response.sendRedirect("resume");
+                return;
+            case "view":
+            case "edit":
+                r = storage.get(uuid);
+                break;
+            default:
+                throw new IllegalArgumentException("Action " + action + " is illegal");
+        }
+        request.setAttribute("resume", r);
+        request.getRequestDispatcher(
+                ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
+        ).forward(request, response);
     }
 }
