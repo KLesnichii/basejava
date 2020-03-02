@@ -2,6 +2,8 @@ package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.SectionType;
+import ru.javawebinar.basejava.model.TextFieldSection;
 import ru.javawebinar.basejava.storage.Storage;
 import ru.javawebinar.basejava.util.Config;
 
@@ -18,8 +20,13 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume r = storage.get(uuid);
-        r.setFullName(fullName);
+        Resume r;
+        if (uuid.equals("")) {
+            r = new Resume(fullName);
+        } else {
+            r = storage.get(uuid);
+            r.setFullName(fullName);
+        }
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
@@ -28,7 +35,19 @@ public class ResumeServlet extends HttpServlet {
                 r.getContacts().remove(type);
             }
         }
-        storage.update(r);
+        for (SectionType typeSection : SectionType.values()) {
+            String value = request.getParameter(typeSection.name());
+            if (value != null && value.trim().length() != 0) {
+                r.addSection(typeSection, new TextFieldSection(value));
+            } else {
+                r.getSections().remove(typeSection);
+            }
+        }
+        if (uuid.equals("")) {
+            storage.save(r);
+        } else {
+            storage.update(r);
+        }
         response.sendRedirect("resume");
     }
 
@@ -40,7 +59,6 @@ public class ResumeServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
             return;
         }
-        Resume r;
         switch (action) {
             case "delete":
                 storage.delete(uuid);
@@ -48,14 +66,16 @@ public class ResumeServlet extends HttpServlet {
                 return;
             case "view":
             case "edit":
-                r = storage.get(uuid);
-                break;
+                request.setAttribute("resume", storage.get(uuid));
+                request.getRequestDispatcher(
+                        ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
+                ).forward(request, response);
+                return;
+            case "add":
+                request.getRequestDispatcher("/WEB-INF/jsp/add.jsp").forward(request, response);
+                return;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
         }
-        request.setAttribute("resume", r);
-        request.getRequestDispatcher(
-                ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
-        ).forward(request, response);
     }
 }

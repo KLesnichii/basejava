@@ -63,8 +63,8 @@ public class ResumeTestData {
         addOrganizationSection(resumeU, SectionType.EXPERIENCE, "resumeU header", "resumeU link",
                 new EventPeriod("resumeU title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resumeU experience"));
         addOrganizationSection(resumeU1, SectionType.EDUCATION, "resumeU1 header", "resumeU1 link",
-                new EventPeriod("resumeU1 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resumeU1 education1"),
-                new EventPeriod("resumeU1 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resumeU1 education2"));
+                new EventPeriod("resumeU1 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), null),
+                new EventPeriod("resumeU1 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), null));
 
         addTextFieldSection(resume1, SectionType.OBJECTIVE, "resume1 objective");
         addTextFieldSection(resume2, SectionType.OBJECTIVE, "resume2 objective");
@@ -81,17 +81,19 @@ public class ResumeTestData {
         addOrganizationSection(resume1, SectionType.EXPERIENCE, "resume1 header", "resume1 link",
                 new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 experience"));
         addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header", "resume2 link",
-                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 experience"));
+                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), DateUtil.of(2007, Month.FEBRUARY), "resume2 experience"));
+        addOrganizationSection(resume2, SectionType.EXPERIENCE, "resume2 header2", "resume2 link2",
+                new EventPeriod("resume2 title2", DateUtil.of(2007, Month.FEBRUARY), LocalDate.now(), "resume2 experience2"));
         addOrganizationSection(resume3, SectionType.EXPERIENCE, "resume3 header", "resume3 link",
                 new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 experience1"),
                 new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 experience2"));
         addOrganizationSection(resume1, SectionType.EDUCATION, "resume1 header", "resume1 link",
-                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), "resume1 education"));
+                new EventPeriod("resume1 title", DateUtil.of(2001, Month.JANUARY), LocalDate.now(), null));
         addOrganizationSection(resume2, SectionType.EDUCATION, "resume2 header", "resume2 link",
-                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), "resume2 education"));
+                new EventPeriod("resume2 title", DateUtil.of(2002, Month.FEBRUARY), LocalDate.now(), null));
         addOrganizationSection(resume3, SectionType.EDUCATION, "resume3 header", "resume3 link",
-                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), "resume3 education1"),
-                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), "resume3 education2"));
+                new EventPeriod("resume3 title1", DateUtil.of(2003, Month.MARCH), LocalDate.now(), null),
+                new EventPeriod("resume3 title2", DateUtil.of(2003, Month.APRIL), LocalDate.now(), null));
     }
 
     public static void main(String[] args) {
@@ -273,8 +275,16 @@ public class ResumeTestData {
 
     private static void addOrganizationSection(Resume resume, SectionType type, String header, String link, EventPeriod... eventPeriods) {
         Map<SectionType, Section> sections = resume.getSections();
-        List<Organization> organizationList = new ArrayList<>();
-        organizationList.add(new Organization(header, link, Arrays.asList(eventPeriods)));
-        sections.put(type, new OrganizationSection(organizationList));
+        Section section = sections.get(type);
+        List<Organization> organizationList;
+        if (section == null) {
+            organizationList = new ArrayList<>();
+            organizationList.add(new Organization(header, link, Arrays.asList(eventPeriods)));
+            sections.put(type, new OrganizationSection(organizationList));
+        } else {
+            organizationList = ((OrganizationSection) section).getOrganizationList();
+            organizationList.add(new Organization(header, link, Arrays.asList(eventPeriods)));
+            sections.put(type, section);
+        }
     }
 }

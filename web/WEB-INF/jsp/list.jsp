@@ -11,7 +11,7 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <table border="1" cellpadding="8" cellspacing="0">
+    <table class="list" border="1" cellpadding="8" cellspacing="0">
         <tr>
             <th>Имя</th>
             <th>Email</th>
@@ -22,12 +22,19 @@
             <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume"/>
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=ContactType.EMAIL.toHtml(resume.getContactByType(ContactType.EMAIL))%></td>
+                <td><%=ContactType.EMAIL.toHtml(resume.getContactByType(ContactType.EMAIL))%>
+                </td>
                 <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>
             </tr>
         </c:forEach>
+        <tr>
+            <td colspan="4">
+                <a class="add" href="resume?action=add">Создать</a>
+            </td>
+        </tr>
     </table>
+    <br>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>

@@ -26,7 +26,7 @@ public enum ContactType {
             return toLink(value);
         }
     },
-    OTHER_PAGE("") {
+    OTHER_PAGE("Дополнительная информация") {
         @Override
         public String toHtml0(String value) {
             return toLink(value);
@@ -56,9 +56,6 @@ public enum ContactType {
     }
 
     public static String toLink(String href, String title) {
-        if (title.equals("")){
-            return "<a href='" + href + "' target='_other'>" + title + "</a>";
-        }
-        return "<a href='" + href + "'>" + title + "</a>";
+        return "<a href='" + href + "' title='" + title + "'>" + title + "</a>";
     }
 }

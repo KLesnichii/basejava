@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -45,8 +46,16 @@ public class EventPeriod implements Serializable {
         return startDate;
     }
 
+    public String getStartDateFormat() {
+        return startDate.format(DateTimeFormatter.ofPattern("MM/yyyy"));
+    }
+
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public String getEndDateFormat() {
+        return endDate.format(DateTimeFormatter.ofPattern("MM/yyyy"));
     }
 
     public String getText() {
