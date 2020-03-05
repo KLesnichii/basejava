@@ -1,9 +1,6 @@
 package ru.javawebinar.basejava.web;
 
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.SectionType;
-import ru.javawebinar.basejava.model.TextFieldSection;
+import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 import ru.javawebinar.basejava.util.Config;
 
@@ -12,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
     private final static Storage storage = Config.getInstance().getStorage();
@@ -35,10 +35,26 @@ public class ResumeServlet extends HttpServlet {
                 r.getContacts().remove(type);
             }
         }
+
         for (SectionType typeSection : SectionType.values()) {
             String value = request.getParameter(typeSection.name());
-            if (value != null && value.trim().length() != 0) {
-                r.addSection(typeSection, new TextFieldSection(value));
+            if (value != null) {
+                List<String> textList = Arrays.stream(request.getParameterValues(typeSection.name()))
+                        .filter((s) -> !s.equals("") && s.trim().length() != 0)
+                        .collect(Collectors.toList());
+                if (textList.isEmpty()) {
+                    r.getSections().remove(typeSection);
+                } else
+                    switch (typeSection) {
+                        case PERSONAL:
+                        case OBJECTIVE:
+                            r.addSection(typeSection, new TextFieldSection(value));
+                            break;
+                        case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                            r.addSection(typeSection, new TextListSection(textList));
+                            break;
+                    }
             } else {
                 r.getSections().remove(typeSection);
             }
@@ -72,7 +88,8 @@ public class ResumeServlet extends HttpServlet {
                 ).forward(request, response);
                 return;
             case "add":
-                request.getRequestDispatcher("/WEB-INF/jsp/add.jsp").forward(request, response);
+                request.setAttribute("resume", new Resume());
+                request.getRequestDispatcher("/WEB-INF/jsp/edit.jsp").forward(request, response);
                 return;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");

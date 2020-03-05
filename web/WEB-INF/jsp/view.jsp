@@ -1,7 +1,8 @@
 <%@ page import="ru.javawebinar.basejava.model.SectionType" %>
 <%@ page import="ru.javawebinar.basejava.model.TextListSection" %>
 <%@ page import="ru.javawebinar.basejava.model.OrganizationSection" %>
-<%@ page import="ru.javawebinar.basejava.model.TextFieldSection" %><%--
+<%@ page import="ru.javawebinar.basejava.model.TextFieldSection" %>
+<%@ page import="ru.javawebinar.basejava.util.HtmlUtil" %><%--
   Created by IntelliJ IDEA.
   User: Shmel
   Date: 28.02.2020
@@ -25,7 +26,7 @@
         <c:forEach var="contactEntry" items="${resume.contacts}">
             <jsp:useBean id="contactEntry"
                          type="java.util.Map.Entry<ru.javawebinar.basejava.model.ContactType, java.lang.String>"/>
-                <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+                <%=HtmlUtil.toHtml(contactEntry.getKey(),contactEntry.getValue())%><br/>
         </c:forEach>
     <p>
     <hr>
@@ -63,7 +64,9 @@
                                          type="ru.javawebinar.basejava.model.EventPeriod"/>
                             <table>
                                 <tr>
-                                    <td>${eventPeriod.startDateFormat} - ${eventPeriod.endDateFormat}</td>
+                                    <td><%=HtmlUtil.getStartDateFormat(eventPeriod)%>
+                                        - <%=HtmlUtil.getEndDateFormat(eventPeriod)%>
+                                    </td>
                                     <td>
                                         <b>${eventPeriod.title}</b>
                                         <br>

@@ -174,22 +174,7 @@ public class SqlStorage implements Storage {
     private void insertIntoSection(Resume resume, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO section (value, resume_uuid, type) VALUES (?,?,?)")) {
             for (Map.Entry<SectionType, Section> entry : resume.getSections().entrySet()) {
-                switch (entry.getKey()) {
-                    case OBJECTIVE:
-                    case PERSONAL:
-                        preparedStatement.setString(1, ((TextFieldSection) entry.getValue()).getText());
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        String sectionText = String.join("\n", ((TextListSection) entry.getValue()).getTextList());
-                        preparedStatement.setString(1, sectionText);
-                        break;
-                    case EDUCATION:
-                    case EXPERIENCE:
-                        String organizationSection = JsonParser.write(entry.getValue(), Section.class);
-                        preparedStatement.setString(1, organizationSection);
-                        break;
-                }
+                preparedStatement.setString(1, JsonParser.write(entry.getValue(), Section.class));
                 preparedStatement.setString(2, resume.getUuid());
                 preparedStatement.setString(3, entry.getKey().name());
                 preparedStatement.addBatch();
@@ -210,24 +195,10 @@ public class SqlStorage implements Storage {
         String type = rs.getString("type");
         String value = rs.getString("value");
         if (value != null) {
-            SectionType sectionType = SectionType.valueOf(type);
-            switch (sectionType) {
-                case OBJECTIVE:
-                case PERSONAL:
-                    resume.addSection(sectionType, new TextFieldSection(value));
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATIONS:
-                    resume.addSection(sectionType,
-                            new TextListSection(Arrays.asList(value.split("\n"))));
-                    break;
-                case EDUCATION:
-                case EXPERIENCE:
-                    resume.addSection(sectionType, JsonParser.read(value, Section.class));
-                    break;
-            }
+            resume.addSection(SectionType.valueOf(type), JsonParser.read(value, Section.class));
         }
     }
+
 
     private static void checkNotExistStorageException(String uuid, PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement.executeUpdate() == 0) {

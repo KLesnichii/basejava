@@ -43,6 +43,12 @@ dd {
     vertical-align: top;
 }
 
+dd.sec {
+    display: inline-block;
+    margin-left: 178px;
+    vertical-align: top;
+}
+
 h2, h3 {
     margin: 15px 0 5px;
 }
@@ -61,7 +67,7 @@ textarea {
     width: 100%;
     height: 85px;
     padding: 12px 20px;
-    box-sizing: border-box;
+    box-sizing: content-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 16px;

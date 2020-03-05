@@ -7,6 +7,7 @@
 --%>
 <%@ page import="ru.javawebinar.basejava.model.ContactType" %>
 <%@ page import="ru.javawebinar.basejava.model.SectionType" %>
+<%@ page import="ru.javawebinar.basejava.model.TextListSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -33,23 +34,66 @@
             </dl>
         </c:forEach>
         <h3>Секции:</h3>
-        <dl>
-            <dt><%=SectionType.PERSONAL.getTitle()%>
-            </dt>
-            <dd><textarea name="<%=SectionType.PERSONAL%>">${resume.getSectionByType(SectionType.PERSONAL)}</textarea>
-            </dd>
-        </dl>
-        <dl>
-            <dt><%=SectionType.OBJECTIVE.getTitle()%>
-            </dt>
-            <dd><textarea name="<%=SectionType.OBJECTIVE%>">${resume.getSectionByType(SectionType.OBJECTIVE)}</textarea>
-            </dd>
-        </dl>
+        <c:forEach var="typeSection" items="<%=SectionType.values()%>">
+            <jsp:useBean id="typeSection"
+                         type="ru.javawebinar.basejava.model.SectionType"/>
+            <c:choose>
+                <c:when test="<%=typeSection.equals(SectionType.PERSONAL) || typeSection.equals(SectionType.OBJECTIVE)%>">
+                    <dl>
+                        <dt>${typeSection.title}
+                        </dt>
+                        <dd><textarea
+                                name="${typeSection.name()}">${resume.getSectionByType(typeSection)}</textarea>
+                        </dd>
+                    </dl>
+                </c:when>
+                <c:when test="<%=typeSection.equals(SectionType.ACHIEVEMENT) || typeSection.equals(SectionType.QUALIFICATIONS)%>">
+                    <dl>
+                        <dt>${typeSection.title}
+                        </dt>
+                        <br>
+                        <c:if test="${resume.getSectionByType(typeSection)!=null}">
+                            <c:forEach var="text"
+                                       items="<%=
+                       ((TextListSection)resume.getSectionByType(typeSection)).getTextList()%>">
+                                <dd class="sec">
+                                    <textarea name="${typeSection.name()}">${text}</textarea>
+                                </dd>
+                                <br>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="<%=typeSection.equals(SectionType.ACHIEVEMENT)%>">
+                            <div id="ach">
+                            </div>
+                            <br>
+                            <button type="button" onclick="addAchievement()">Добавить</button>
+                        </c:if>
+                        <c:if test="<%=typeSection.equals(SectionType.QUALIFICATIONS)%>">
+                            <div id="qua">
+                            </div>
+                            <br>
+                            <button type="button" onclick="addQualification()">Добавить</button>
+                        </c:if>
+                    </dl>
+                </c:when>
+            </c:choose>
+        </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
         <button type="button" onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
+<script>
+    function addAchievement() {
+        document.getElementById("ach").insertAdjacentHTML('beforeend',
+            '<dd class="sec"><textarea name="<%=SectionType.ACHIEVEMENT%>"></textarea></dd><br>');
+    }
+
+    function addQualification() {
+        document.getElementById("qua").insertAdjacentHTML('beforeend',
+            '<dd class="sec"><textarea name="<%=SectionType.QUALIFICATIONS%>"></textarea></dd><br>');
+    }
+</script>
 </body>
 </html>
