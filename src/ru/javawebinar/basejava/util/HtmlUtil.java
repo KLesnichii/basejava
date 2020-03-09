@@ -2,20 +2,31 @@ package ru.javawebinar.basejava.util;
 
 import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.EventPeriod;
+import ru.javawebinar.basejava.model.Section;
+import ru.javawebinar.basejava.model.TextListSection;
 
 import java.time.format.DateTimeFormatter;
 
 public class HtmlUtil {
+    private final static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
 
     public HtmlUtil() {
     }
 
     public static String getStartDateFormat(EventPeriod eventPeriod) {
-        return eventPeriod.getStartDate().format(DateTimeFormatter.ofPattern("MM/yyyy"));
+        return eventPeriod.getStartDate().format(FORMATTER);
     }
 
     public static String getEndDateFormat(EventPeriod eventPeriod) {
-        return eventPeriod.getEndDate().format(DateTimeFormatter.ofPattern("MM/yyyy"));
+        return eventPeriod.getEndDate().format(FORMATTER);
+    }
+
+    public static String textListSectionToList(Section section) {
+        if (section != null) {
+            return String.join("\n", ((TextListSection) section).
+                    getTextList().toArray((new String[0]))
+            );
+        } else return "";
     }
 
     public static String toHtml(ContactType type, String value) {

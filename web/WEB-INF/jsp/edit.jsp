@@ -8,6 +8,9 @@
 <%@ page import="ru.javawebinar.basejava.model.ContactType" %>
 <%@ page import="ru.javawebinar.basejava.model.SectionType" %>
 <%@ page import="ru.javawebinar.basejava.model.TextListSection" %>
+<%@ page import="ru.javawebinar.basejava.model.OrganizationSection" %>
+<%@ page import="java.util.UUID" %>
+<%@ page import="ru.javawebinar.basejava.util.HtmlUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -52,28 +55,71 @@
                         <dt>${typeSection.title}
                         </dt>
                         <br>
+                        <dd class="sec">
+                            <textarea
+                                    name="${typeSection.name()}"><%=HtmlUtil.textListSectionToList(resume.getSectionByType(typeSection))%></textarea>
+                        </dd>
+                        <br>
+                    </dl>
+                </c:when>
+                <c:when test="<%=typeSection.equals(SectionType.EDUCATION) || typeSection.equals(SectionType.EXPERIENCE)%>">
+                    <dl>
+                        <dt>${typeSection.title}
+                        </dt>
+                        <br><br>
                         <c:if test="${resume.getSectionByType(typeSection)!=null}">
-                            <c:forEach var="text"
+                            <c:forEach var="organization"
                                        items="<%=
-                       ((TextListSection)resume.getSectionByType(typeSection)).getTextList()%>">
-                                <dd class="sec">
-                                    <textarea name="${typeSection.name()}">${text}</textarea>
+                       ((OrganizationSection)resume.getSectionByType(typeSection)).getOrganizationList()%>">
+                                <dt class="left">Название:</dt>
+                                <dd>
+                                    <input type="text" name="${typeSection.name()}" size=30
+                                           value="${organization.header}">
                                 </dd>
                                 <br>
+                                <dt class="left">Ссылка:</dt>
+                                <dd>
+                                    <input type="text" name="link" size=30 value="${organization.link}">
+                                </dd>
+                                <br>
+                                <c:forEach var="eventPeriod"
+                                           items="${organization.eventPeriodList}">
+                                    <input type="hidden" name="${typeSection.name()}" value="#existEventPeriod#">
+                                    <div class="event">
+                                        <dt class="left">Деятельность:</dt>
+                                        <dd>
+                                            <input type="text" name="title" size=30 value="${eventPeriod.title}">
+                                        </dd>
+                                        <br>
+                                        <c:if test="<%=typeSection.equals(SectionType.EXPERIENCE)%>">
+                                            <dt class="left">Описание:</dt>
+                                            <dd>
+                                                <textarea name="text">${eventPeriod.text}</textarea>
+                                            </dd>
+                                            <br>
+                                        </c:if>
+                                        <dt class="left">Дата начала:</dt>
+                                        <dd>
+                                            <input name="startDate" type="date" value="${eventPeriod.startDate}">
+                                        </dd>
+                                        <br>
+                                        <dt class="left">Дата окончания:</dt>
+                                        <dd>
+                                            <input name="endDate" type="date" value="${eventPeriod.endDate}">
+                                        </dd>
+                                    </div>
+                                </c:forEach>
+                                <c:set var="id" value="<%=UUID.randomUUID()%>"/>
+                                <button id="${id}" type="button"
+                                        onclick=addEventPeriod('${typeSection.name()}','${id}')>
+                                    Добавить описание
+                                </button>
+                                <hr>
                             </c:forEach>
                         </c:if>
-                        <c:if test="<%=typeSection.equals(SectionType.ACHIEVEMENT)%>">
-                            <div id="ach">
-                            </div>
-                            <br>
-                            <button type="button" onclick="addAchievement()">Добавить</button>
-                        </c:if>
-                        <c:if test="<%=typeSection.equals(SectionType.QUALIFICATIONS)%>">
-                            <div id="qua">
-                            </div>
-                            <br>
-                            <button type="button" onclick="addQualification()">Добавить</button>
-                        </c:if>
+                        <button id="${typeSection.name()}" type="button"
+                                onclick="addOrganization('${typeSection.name()}')">Добавить
+                        </button>
                     </dl>
                 </c:when>
             </c:choose>
@@ -84,15 +130,30 @@
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
-<script>
-    function addAchievement() {
-        document.getElementById("ach").insertAdjacentHTML('beforeend',
-            '<dd class="sec"><textarea name="<%=SectionType.ACHIEVEMENT%>"></textarea></dd><br>');
+<script type="text/javascript" charset="UTF-8">
+    function addOrganization(type) {
+        let element = document.createElement('div');
+        element.innerHTML = '<dt class="left">Название:</dt><dd><input type="text" name="' + type + '" size=30></dd><br>';
+        element.insertAdjacentHTML('beforeend', '<dt class="left">Ссылка:</dt><dd><input type="text" name="link" size=30 ></dd><br>');
+        const id = Math.random().toString(26).slice(2);
+        element.insertAdjacentHTML('beforeend', '<button id=' + id + ' type="button" onclick=addEventPeriod(' + "'" + type + "'" + ',"' + id + '")>Добавить описание</button>');
+        document.getElementById(type).before(element)
     }
 
-    function addQualification() {
-        document.getElementById("qua").insertAdjacentHTML('beforeend',
-            '<dd class="sec"><textarea name="<%=SectionType.QUALIFICATIONS%>"></textarea></dd><br>');
+    function addEventPeriod(type, id) {
+        let element = document.createElement('div');
+        element.setAttribute("class", "event")
+        element.innerHTML = '<input type="hidden" name="' + type + '" value="#existEventPeriod#">' +
+            '<dt class="left">Деятельность:</dt>' +
+            '<dd> <input type="text" name="title" size=30></dd><br>';
+        if ('EXPERIENCE' == type) {
+            element.insertAdjacentHTML('beforeend', ' <dt class="left">Описание:</dt>' +
+                '<dd> <textarea name="text"></textarea> </dd> <br>');
+        }
+        element.insertAdjacentHTML('beforeend',
+            '<dt class="left">Дата начала:</dt><dd><input name="startDate" type="date"></dd>' +
+            '<br><dt class="left">Дата окончания:</dt><dd> <input name="endDate" type="date"></dd>');
+        document.getElementById(id).before(element)
     }
 </script>
 </body>

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
@@ -27,6 +27,7 @@ public class ResumeServlet extends HttpServlet {
             r = storage.get(uuid);
             r.setFullName(fullName);
         }
+
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
@@ -36,13 +37,16 @@ public class ResumeServlet extends HttpServlet {
             }
         }
 
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        int countEventPeriod = 0;
+        int countLink = 0;
         for (SectionType typeSection : SectionType.values()) {
             String value = request.getParameter(typeSection.name());
             if (value != null) {
-                List<String> textList = Arrays.stream(request.getParameterValues(typeSection.name()))
-                        .filter((s) -> !s.equals("") && s.trim().length() != 0)
+                List<String> parameterValues = Arrays.stream(request.getParameterValues(typeSection.name()))
+                        .filter((s) -> s.trim().length() != 0 && !s.equals("#existEventPeriod#"))
                         .collect(Collectors.toList());
-                if (textList.isEmpty()) {
+                if (parameterValues.isEmpty()) {
                     r.getSections().remove(typeSection);
                 } else
                     switch (typeSection) {
@@ -52,7 +56,62 @@ public class ResumeServlet extends HttpServlet {
                             break;
                         case ACHIEVEMENT:
                         case QUALIFICATIONS:
-                            r.addSection(typeSection, new TextListSection(textList));
+                            List<String> textLists = Arrays.asList(value.trim().split("\\n"));
+                            textLists = textLists.stream().filter((s) -> s.trim().length() != 0).collect(Collectors.toList());
+                            r.addSection(typeSection, new TextListSection(textLists));
+                            break;
+                        case EDUCATION:
+                        case EXPERIENCE:
+                            String[] organizationSting = parameterMap.get(typeSection.name());
+                            List<Organization> organizationList = new ArrayList<>();
+                            Organization organization = null;
+                            List<EventPeriod> eventPeriodList = new ArrayList<>();
+                            String lastHeader = "";
+                            for (String header : organizationSting) {
+                                switch (header) {
+                                    case "#existEventPeriod#":
+                                        String title = parameterMap.get("title")[countEventPeriod];
+                                        if (title.equals("") || lastHeader.equals("")) {
+                                            countEventPeriod++;
+                                            continue;
+                                        }
+                                        String start = parameterMap.get("startDate")[countEventPeriod];
+                                        LocalDate startDate = LocalDate.parse(start.equals("") ? "0001-01-01" : start);
+                                        String end = parameterMap.get("endDate")[countEventPeriod];
+                                        LocalDate endDate = LocalDate.parse(end.equals("") ? "0001-01-01" : end);
+
+                                        if (typeSection.equals(SectionType.EXPERIENCE)) {
+                                            String text = parameterMap.get("text")[countEventPeriod];
+                                            eventPeriodList.add(new EventPeriod(title, startDate, endDate, text));
+                                        } else {
+                                            eventPeriodList.add(new EventPeriod(title, startDate, endDate));
+                                        }
+                                        countEventPeriod++;
+                                        break;
+                                    case "":
+                                        lastHeader = "";
+                                        countLink++;
+                                        break;
+                                    default:
+                                        if (!eventPeriodList.isEmpty()) {
+                                            organization.getEventPeriodList().addAll(new ArrayList<>(eventPeriodList));
+                                            eventPeriodList.clear();
+                                        }
+                                        if (organization != null) {
+                                            organizationList.add(organization);
+                                        }
+                                        lastHeader = header;
+                                        organization = new Organization(header, parameterMap.get("link")[countLink], new ArrayList<>(eventPeriodList));
+                                        countLink++;
+                                        break;
+                                }
+                            }
+                            if (!eventPeriodList.isEmpty()) {
+                                organization.getEventPeriodList().addAll(new ArrayList<>(eventPeriodList));
+                                eventPeriodList.clear();
+                            }
+                            organizationList.add(organization);
+                            r.addSection(typeSection, new OrganizationSection(organizationList));
                             break;
                     }
             } else {

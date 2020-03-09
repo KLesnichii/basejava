@@ -37,10 +37,17 @@ dt {
     width: 170px;
 }
 
+dt.left {
+    display: inline-block;
+    width: 170px;
+    text-indent: 2em;
+}
+
 dd {
     display: inline-block;
     margin-left: 8px;
     vertical-align: top;
+    margin-bottom: 10px;
 }
 
 dd.sec {
@@ -70,8 +77,13 @@ textarea {
     box-sizing: content-box;
     border: 2px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
     resize: none;
+}
+
+div.event {
+    padding-top: 12px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
 a[href^="skype:"] {
